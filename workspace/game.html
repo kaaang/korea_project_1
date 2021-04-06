@@ -19,6 +19,13 @@
         height: 50px;
         background-color: darkcyan;
     }
+    #coin{
+        width: 150px;
+        height: 50px;
+        background-color: bisque;
+        position: absolute;
+        right: 0px;
+    }
     #content{
         width: 100%;
         height: 600px;
@@ -50,6 +57,7 @@
         background-color: dimgray;
         float: left;
     }
+    
 </style>
 
 
@@ -58,6 +66,7 @@
 <script src="../js/Castle.js"></script>
 <script src="../js/Coin.js"></script>
 <script src="../js/Hero.js"></script>
+<script src="../js/ShowHero.js"></script>
 <script>
     var wrapper;
     var info;
@@ -66,6 +75,12 @@
     var hero_left;
     var hero_center;
     var hero_right;
+    var heroArr=[];
+    var heroShow;
+    var coin=0;
+    var heroShowArr=[];
+    var imgArr=["ball1.png","ball2.png","ball3.png","ball4.png","ball5.png"];
+    var cnt =0;
 
 
     function init(){
@@ -81,7 +96,49 @@
         createCastle();
         createCoin();
         createHero();
+        showCoin();
+
+        document.body.addEventListener("keydown", function(){
+            pressDown();
+        });
+    
+        // document.body.addEventListener("keyup", function(){
+        //     pressUp();
+        // });
+
     }
+    // 49~53
+    // 97~101
+    function pressDown(){
+        switch(event.keyCode){
+            case 32:
+                coin++;
+                showCoin();
+                break;
+            case 49:
+            case 97:
+                hero_show("ball1.png",1);
+                break;
+            case 50:
+            case 98:
+                hero_show("ball2.png",2);
+                break;
+            case 51:
+            case 99:
+                hero_show("ball3.png",3);
+                break;
+            case 52:
+            case 100:
+                hero_show("ball4.png",4);
+                break;
+            case 53:
+            case 101:
+                hero_show("ball5.png",5);
+                break;
+        }
+    }
+
+
 
     function createBg(){
         var bg=new Bg(content, "../img/BG.png", 1800, 600, 0, 0, 0, 0);
@@ -95,21 +152,97 @@
     }
     function createHero(){
         for(var i=0;i<5;i++){
-            var hero = new Hero(hero_left,"../img/Objects/Sign.png",200,150,400+(i*200),0,0,0);
+            var hero = new Hero(hero_left,"../img/ball/"+imgArr[i],200,150,400+(i*200),0,0,0);
+            heroArr.push(hero);
         }
     }
+    function showCoin(){
+        var div = document.getElementById("coin");
+        div.innerText = "COIN : "+coin;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function hero_show(src, heroNum){
+        if(heroNum == 1){
+            if(coin >= 10){
+                coin -=10;
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShowArr.push(heroShow);
+            }
+        }else if(heroNum ==2){
+            if(coin >= 20){
+                coin -=20;
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShowArr.push(heroShow);
+            }
+        }else if(heroNum ==3){
+            if(coin >= 30){
+                coin -=30;
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShowArr.push(heroShow);
+            }
+        }else if(heroNum ==4){
+            if(coin >= 40){
+                coin -=40;
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShowArr.push(heroShow);
+            }
+        }else if(heroNum ==5){
+            if(coin >= 50){
+                coin -=50;
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShowArr.push(heroShow);
+            }
+        }
+
+        
+        // heroShowArr.push(heroShow);
+        console.log(heroShowArr);
+    }
+
+
     
+
+    function gameLoop(){
+        cnt++;
+        if(heroShowArr.length>0){
+            heroShow.tick();
+            heroShow.render();
+        }
+        
+        if((cnt%10) == 0){
+            coin++;
+            showCoin();
+        }
+    }
 
 
     window.addEventListener("load",function(){
         init();
+        setInterval("gameLoop()",100);
     });
 </script>
 
 </head>
 <body>
     <div id="wrapper">
-        <div id="info"></div>
+        <div id="info">
+            <div id="coin"></div>
+        </div>
         <div id="content"></div>
         <div id="hero">
             <div id="hero_left"></div>

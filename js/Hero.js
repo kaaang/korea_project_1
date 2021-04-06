@@ -3,4 +3,12 @@ class Hero extends Obj{
         super(container, src, width, height, x, y, velX, velY);
         
     }
+
+    tick(){
+        
+    }
+
+    render(){
+
+    }
 }
