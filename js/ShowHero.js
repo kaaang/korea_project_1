@@ -9,13 +9,13 @@ class ShowHero extends Obj{
             this.hpdiv.style.height = 20 + "px";
             this.hpdiv.style.boxSizing = "border-box";
             this.hpdiv.style.border = "1px solid black"
-            this.hpdiv.style.backgroundColor = "white";
+            this.hpdiv.style.backgroundColor = "red";
             this.hpdiv.style.position = "absolute";
             this.hpdiv.style.top = this.y - 20 + "px";
             this.hpdiv.style.left = x+(parseFloat(this.hpdiv.style.width)*i) + "px";
             this.container.appendChild(this.hpdiv);
             this.hpAr.push(this.hpdiv);
-            //asdasdasd
+            
         }
 
     }
@@ -27,8 +27,8 @@ class ShowHero extends Obj{
                 eneX=0;
             }else{
                 heroShowArr[i].img.style.left =parseInt(heroShowArr[i].img.style.left)+ this.velX +"px";
-                for(var i=0;i<this.hpAr.length;i++){
-                    heroShowArr[i].hpAr[i].style.left =parseInt(heroShowArr[i].hpAr[i].style.left)+ this.velX +"px";
+                for(var j=0;j<heroShowArr[i].hpAr.length;j++){
+                    heroShowArr[i].hpAr[j].style.left =parseFloat(heroShowArr[i].hpAr[j].style.left)+ this.velX +"px";
                 }
             }
         }
