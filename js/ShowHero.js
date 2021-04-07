@@ -25,6 +25,18 @@ class ShowHero extends Obj{
             if(hitTest(heroShowArr[i].img, ene.img)){
                 heroShowArr[i].velX =0;
                 eneX=0;
+
+                heroShowArr[i].img.style.top=parseInt(heroShowArr[i].img.style.top)-30+"px";
+                for(var j=0;j<heroShowArr[i].hpAr.length;j++){
+                    heroShowArr[i].hpAr[j].style.top =parseFloat(heroShowArr[i].hpAr[j].style.top)-30 +"px";
+                }
+                
+
+                heroShowArr[i].img.style.top=parseInt(heroShowArr[i].img.style.top)+30+"px";
+                for(var j=0;j<heroShowArr[i].hpAr.length;j++){
+                    heroShowArr[i].hpAr[j].style.top =parseFloat(heroShowArr[i].hpAr[j].style.top)+30 +"px";
+                }
+                this.attackEnemy();
             }else{
                 heroShowArr[i].img.style.left =parseInt(heroShowArr[i].img.style.left)+ this.velX +"px";
                 for(var j=0;j<heroShowArr[i].hpAr.length;j++){
@@ -37,4 +49,15 @@ class ShowHero extends Obj{
     render(){
         
     }
+
+    attackEnemy(){
+        if(ene.hpAr.length==0){
+            // removeObject(this.container,ene,eneArr,0);
+            ene.hit();
+        }else{
+            removeObject(this.container,ene.hpAr[0],ene.hpAr,0);
+
+        }
+    } 
+    
 }

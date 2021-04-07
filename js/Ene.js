@@ -26,4 +26,8 @@ class Ene extends Obj{
             this.hpAr[i].style.left = parseInt(this.hpAr[i].style.left) - eneX + "px";
         }
     }
+
+    hit(){
+        this.container.removeChild(eneArr[0]);
+    }
 }
