@@ -15,8 +15,8 @@ class ShowHero extends Obj{
             this.hpdiv.style.left = x+(parseFloat(this.hpdiv.style.width)*i) + "px";
             this.container.appendChild(this.hpdiv);
             this.hpAr.push(this.hpdiv);
+            //asdasdasd
         }
-
 
     }
 
