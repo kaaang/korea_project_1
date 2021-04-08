@@ -28,19 +28,19 @@ class ShowHero extends Obj{
             heroShowArr[i].img.style.left =parseInt(heroShowArr[i].img.style.left)+ this.velX +"px";
             for(var j=0;j<heroShowArr[i].hpAr.length;j++){
                 heroShowArr[i].hpAr[j].style.left =parseFloat(heroShowArr[i].hpAr[j].style.left)+ this.velX +"px";
-                if(eneArr.length>0){
-                    for(var a=0;a<eneArr.length;a++){
-                        if(hitTest(heroShowArr[i].img, eneArr[a].img)){
-                            heroShowArr[i].velX =0;
-                            eneX=0;
-                            this.attackEnemy();
-                        }else{
-                            heroShowArr[i].velX =this.speed;
-                        }
+            }
+            if(eneArr.length>0){
+                for(var a=0;a<eneArr.length;a++){
+                    if(hitTest(heroShowArr[i].img, eneArr[a].img)){
+                        heroShowArr[i].velX =0;
+                        eneX=0;
+                        this.attackEnemy();
+                    }else{
+                        heroShowArr[i].velX =this.speed;
                     }
-                }else if(eneArr.length<=0){
-                    heroShowArr[i].velX =this.speed;
                 }
+            }else if(eneArr.length<=0){
+                heroShowArr[i].velX =this.speed;
             }
         }
 
