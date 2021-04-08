@@ -29,8 +29,10 @@ class ShowHero extends Obj{
             for(var j=0;j<heroShowArr[i].hpAr.length;j++){
                 heroShowArr[i].hpAr[j].style.left =parseFloat(heroShowArr[i].hpAr[j].style.left)+ this.velX +"px";
             }
+
+
             if(eneArr.length>0){
-                for(var a=0;a<eneArr.length;a++){
+                for(var a=0;a<eneArr.length;a++){               
                     if(hitTest(heroShowArr[i].img, eneArr[a].img)){
                         heroShowArr[i].velX =0;
                         eneX=0;
@@ -41,6 +43,15 @@ class ShowHero extends Obj{
                 }
             }else if(eneArr.length<=0){
                 heroShowArr[i].velX =this.speed;
+                for(var q=0;q<castle2.hpAr.length;q++){
+                    if(hitTest(heroShowArr[i].img, castle2.img)){
+                        heroShowArr[i].velX =0;
+                        this.attackcastle();
+                        if(castle2.hpAr.length<=0){
+                            alert("게임완료");
+                        }
+                    }
+                }
             }
         }
 
@@ -62,5 +73,18 @@ class ShowHero extends Obj{
             }
         }
     }
+
+    attackcastle(){
+        
+        if(castle2.hpAr.length<=0){
+            alert("게임완료");
+        }else{
+            removeObject(this.container,castle2.hpAr[0],castle2.hpAr,0);
+        }
+        
+    }
+
+
+
 
 }

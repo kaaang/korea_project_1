@@ -92,6 +92,9 @@
     var eneX = 10;
     var eneArr=[];
 
+    var castle;
+    var castle2;
+
 
     function init(){
         wrapper = document.getElementById("wrapper");
@@ -163,8 +166,8 @@
         var bg=new Bg(content, "../img/BG.png", 1800, 600, 0, 0, 0, 0);
     }
     function createCastle(){
-        var castle = new Castle(content,"../img/Objects/StoneBlock.png",100,500,0,100,0,0,10);
-        var castle2 = new Castle(content,"../img/Objects/StoneBlock.png",100,500,1700,100,0,0,10);
+        castle = new Castle(content,"../img/Objects/StoneBlock.png",100,500,0,100,0,0,10);
+        castle2 = new Castle(content,"../img/Objects/StoneBlock.png",100,500,1700,100,0,0,10);
     }
     function createCoin(){
         var coin = new Coin(hero_left,"../img/Objects/Crate.png",350,100,25,25,0,0);
