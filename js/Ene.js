@@ -27,7 +27,4 @@ class Ene extends Obj{
         }
     }
 
-    hit(){
-        this.container.removeChild(eneArr[0]);
-    }
 }

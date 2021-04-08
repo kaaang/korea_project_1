@@ -18,46 +18,49 @@ class ShowHero extends Obj{
             
         }
 
+        this.speed = this.velX;
+
     }
 
     tick(){
+     
         for(var i=0;i<heroShowArr.length;i++){
-            if(hitTest(heroShowArr[i].img, ene.img)){
-                heroShowArr[i].velX =0;
-                eneX=0;
-
-                heroShowArr[i].img.style.top=parseInt(heroShowArr[i].img.style.top)-30+"px";
-                for(var j=0;j<heroShowArr[i].hpAr.length;j++){
-                    heroShowArr[i].hpAr[j].style.top =parseFloat(heroShowArr[i].hpAr[j].style.top)-30 +"px";
-                }
-                
-
-                heroShowArr[i].img.style.top=parseInt(heroShowArr[i].img.style.top)+30+"px";
-                for(var j=0;j<heroShowArr[i].hpAr.length;j++){
-                    heroShowArr[i].hpAr[j].style.top =parseFloat(heroShowArr[i].hpAr[j].style.top)+30 +"px";
-                }
-                this.attackEnemy();
-            }else{
-                heroShowArr[i].img.style.left =parseInt(heroShowArr[i].img.style.left)+ this.velX +"px";
-                for(var j=0;j<heroShowArr[i].hpAr.length;j++){
-                    heroShowArr[i].hpAr[j].style.left =parseFloat(heroShowArr[i].hpAr[j].style.left)+ this.velX +"px";
+            heroShowArr[i].img.style.left =parseInt(heroShowArr[i].img.style.left)+ this.velX +"px";
+            for(var j=0;j<heroShowArr[i].hpAr.length;j++){
+                heroShowArr[i].hpAr[j].style.left =parseFloat(heroShowArr[i].hpAr[j].style.left)+ this.velX +"px";
+                if(eneArr.length>0){
+                    for(var a=0;a<eneArr.length;a++){
+                        if(hitTest(heroShowArr[i].img, eneArr[a].img)){
+                            heroShowArr[i].velX =0;
+                            eneX=0;
+                            this.attackEnemy();
+                        }else{
+                            heroShowArr[i].velX =this.speed;
+                        }
+                    }
+                }else if(eneArr.length<=0){
+                    heroShowArr[i].velX =this.speed;
                 }
             }
         }
+
+
+        
     }
+
 
     render(){
         
     }
-
+        
     attackEnemy(){
-        if(ene.hpAr.length==0){
-            // removeObject(this.container,ene,eneArr,0);
-            ene.hit();
-        }else{
-            removeObject(this.container,ene.hpAr[0],ene.hpAr,0);
-
+        for(var i=0;i<eneArr.length;i++){
+            if(eneArr[i].hpAr.length<=0){
+                removeObject(this.container,eneArr[i].img,eneArr,i);
+            }else{
+                removeObject(this.container,eneArr[i].hpAr[0],eneArr[i].hpAr,0);
+            }
         }
-    } 
-    
+    }
+
 }
