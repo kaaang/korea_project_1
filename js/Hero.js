@@ -25,6 +25,8 @@ class Hero extends CharacterObj{
         this.bkp=this.move[this.cnt].pos;
         this.bkw=this.move[this.cnt].width;
         this.bkh=this.move[this.cnt].height;
+        this.y=this.container_height-parseInt(this.height);
+
         this.cnt++;
 
         if(!this.attack_flag){
