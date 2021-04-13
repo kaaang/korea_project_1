@@ -1,30 +1,58 @@
-class Ene extends Obj{
-    constructor(container, src, width, height, x, y, velX, velY,hp){
-        super(container, src, width, height, x, y, velX, velY);
-        this.hpAr = [];
-        for(var i=0;i<hp;i++){
-            this.hpdiv = document.createElement("div");
-            this.hpdiv.style.width = parseFloat(this.width/hp) + "px";
-            this.hpdiv.style.height = 20 + "px";
-            this.hpdiv.style.boxSizing = "border-box";
-            this.hpdiv.style.border = "1px solid black"
-            this.hpdiv.style.backgroundColor = "red";
-            this.hpdiv.style.position = "absolute";
-            this.hpdiv.style.top = this.y - 20 + "px";
-            this.hpdiv.style.left = x+(parseFloat(this.hpdiv.style.width)*i) + "px";
-            this.container.appendChild(this.hpdiv);
-            this.hpAr.push(this.hpdiv);
-        }
+class Ene extends CharacterObj{
+    constructor(container, src, x, y, velX, velY, hp,move,attack){
+        super(container, src, x, y, velX, velY, hp,move,attack);
+
+        this.cnt=0;
+        this.hit_cnt=0;
     }
+
     tick(){
-        this.velX = eneX;
+
+
+
         this.x -= this.velX;
+        if(this.cnt >= this.move.length){
+            this.cnt=0;
+        }
+        this.width=parseInt(this.move[this.cnt].width);
+        this.height=parseInt(this.move[this.cnt].height);
+        this.bkp=this.move[this.cnt].pos;
+        this.bkw=this.move[this.cnt].width;
+        this.bkh=this.move[this.cnt].height;
+        this.cnt++;
+    
+        for(var i=0;i<heroArr.length;i++){
+            if(hitTest(this.box, heroArr[i].box)){
+                this.velX=0;
+            }
+        }
+        
+
+        
+
+
+
+
+
+
+
+
+        // 나의 hp가 0이 되었을때 나를 삭제
+        if(this.hpAr.length==0){
+            removeObject(content,eneArr[eneArr.indexOf(this)].box,eneArr,eneArr.indexOf(this));
+            content.removeChild(this.hpbox);
+        }
+        
     }
     render(){
-        this.img.style.left = this.x + "px";
-        for(var i=0;i<this.hpAr.length;i++){
-            this.hpAr[i].style.left = parseInt(this.hpAr[i].style.left) - eneX + "px";
-        }
+        this.box.style.left = this.x + "px";
+        this.hpbox.style.left=this.x+"px";
+
+        this.box.style.backgroundPosition = this.bkp;
+        this.box.style.backgroundWidth = this.bkw;
+        this.box.style.backgroundHeight = this.bkh;
+        this.box.style.width=this.width+"px";
+        this.box.style.height=this.height+"px";
     }
 
 }

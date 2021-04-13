@@ -88,13 +88,10 @@
 </style>
 
 
-<script src="../js/lib.js"></script>
 <script src="../js/GameObj.js"></script>
 <script src="../js/Castle.js"></script>
-
-<script src="../js/CharacterObj.js"></script>
+<script src="../js/HeroObj.js"></script>
 <script src="../js/Hero.js"></script>
-<script src="../js/Ene.js"></script>
 <script>
 
     var content;
@@ -110,57 +107,8 @@
         {pos:"-269px -444px",width:"43px",height:"41px"},
         {pos:"-336px -446px",width:"46px",height:"39px"},
         {pos:"-407px -444px",width:"43px",height:"41px"},
-        {pos:"-477px -443px",width:"36px",height:"42px"}
-    ];
-    var hero1_attack=[
-        {pos:"-10px -279px",width:"50px",height:"28px"},
-        {pos:"-80px -268px",width:"39px",height:"40px"},
-        {pos:"-147px -257px",width:"52px",height:"51px"},
-        {pos:"-225px -264px",width:"46px",height:"43px"},
-        {pos:"-294px -263px",width:"42px",height:"44px"},
-        {pos:"-358px -256px",width:"51px",height:"51px"},
-        {pos:"-427px -263px",width:"46px",height:"44px"},
-        {pos:"-491px -256px",width:"51px",height:"51px"},
-        {pos:"-558px -263px",width:"42px",height:"45px"}
-    ];
-
-
-
-
-
-
-
-    var ene1_move=[
-        {pos:"-14px -38px",width:"89px",height:"90px"},
-        {pos:"-159px -37px",width:"65px",height:"91px"},
-        {pos:"-284px -32px",width:"71px",height:"96px"},
-        {pos:"-398px -42px",width:"100px",height:"86px"}
-    ];
-    var ene2_move=[
-        {pos:"-13px -147px",width:"101px",height:"109px"},
-        {pos:"-149px -140px",width:"85px",height:"116px"},
-        {pos:"-256px -144px",width:"98px",height:"112px"},
-        {pos:"-384px -151px",width:"101px",height:"105px"}
-    ];
-    var ene3_move=[
-        {pos:"-13px -264px",width:"95px",height:"120px"},
-        {pos:"-138px -271px",width:"86px",height:"112px"},
-        {pos:"-260px -268px",width:"92px",height:"116px"},
-        {pos:"-388px -271px",width:"110px",height:"113px"}
-    ];
-    var ene4_move=[
-        {pos:"-43px -391px",width:"51px",height:"121px"},
-        {pos:"-177px -384px",width:"51px",height:"115px"},
-        {pos:"-302px -399px",width:"58px",height:"113px"},
-        {pos:"-426px -392px",width:"54px",height:"120px"}
-    ];
-    
-
-
-
-
-
-
+        {pos:"-447px -443px",width:"36px",height:"42px"}
+    ]
 
     var coin=0;
     var coin_cnt=0;
@@ -170,11 +118,6 @@
 
     var heroArr=[];
 
-    var eneArr=[];
-    var ene_cnt=0;
-
-    var flag = true;
-
 
     function init(){
         content = document.getElementById("content");
@@ -182,9 +125,6 @@
         
         createCoin();
         createCastle();
-
-        //임시 적군 소환
-        createEne(ene3_move);
 
         document.body.addEventListener("keydown", function(){
             pressDown();
@@ -199,23 +139,23 @@
         switch(event.keyCode){
             case 49:
             case 97:
-                createHero("../img/c/hero1.png",1,hero1_move,hero1_attack);
+                createHero("../img/c/hero1.png",1,hero1_move);
                 break;
             case 50:
             case 98:
-                createHero("../img/c/hero2.png",2,hero2_move,hero2_attack);
+                createHero("../img/c/hero2.png",2,hero2_move);
                 break;
             case 51:
             case 99:
-                createHero("../img/c/hero3.png",3,hero3_move,hero3_attack);
+                createHero("../img/c/hero3.png",3,hero3_move);
                 break;
             case 52:
             case 100:
-                createHero("../img/c/hero4.png",4,hero4_move,hero4_attack);
+                createHero("../img/c/hero4.png",4,hero4_move);
                 break;
             case 53:
             case 101:
-                createHero("../img/c/hero5.png",5,hero5_move,hero5_attack);
+                createHero("../img/c/hero5.png",5,hero5_move);
                 break;
         }
     }
@@ -238,7 +178,7 @@
     }
 
     function createCastle(){
-        //container, src, width, height, x, y, velX, velY, hp, attack
+        //container, src, width, height, x, y, velX, velY, hp
         my_castle = new Castle(content,"../img/my_tower.png",150,450,0,150,0,0,10);
         ene_castle = new Castle(content,"../img/ene_tower.png",150,450,1250,150,0,0,10);
     }
@@ -247,10 +187,10 @@
 
 
 
-    function createHero(src,heroNum,move,attack){
+    function createHero(src,heroNum,move){
         switch(heroNum){
             case 1:
-                var hero = new Hero(content,src,150,550,2,0,3,move,attack);
+                var hero = new Hero(content,src,50,50,150,550,2,0,3,move);
                 heroArr.push(hero);
                 break;
             case 2:
@@ -262,13 +202,6 @@
             case 5:
                 break;
         }
-    }
-
-    function createEne(move){
-        // ene1에 대한 속성만 정의
-        //container, src, width, height, x, y, velX, velY, hp, attack
-        var ene = new Ene(content,"../img/c/ene.png",1200,500,2,0,7,move,move);
-        eneArr.push(ene);
     }
 
 
@@ -305,34 +238,17 @@
 
         if(heroArr.length>0){
             for(var i=0;i<heroArr.length;i++){
-                heroArr[i].render();
                 heroArr[i].tick();
+                heroArr[i].render();
             }
         }
-
-        //임시 tick
-        if(eneArr.length>0){
-            for(var i=0;i<eneArr.length;i++){
-                eneArr[i].render();
-                eneArr[i].tick();
-            }
-        }
-
-
-
-
-        // ene_cnt++;
-        // if(ene_cnt%150 == 0 && flag){
-        //     createEne(ene1_move);
-        //     flag=false;
-        // }
     }
 
     
     
     window.addEventListener("load",function(){
         init();
-        setInterval("gameLoop()",100);
+        setInterval("gameLoop()",50);
     });
 </script>
 
