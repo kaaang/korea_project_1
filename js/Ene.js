@@ -1,4 +1,4 @@
-class Castle extends Obj{
+class Ene extends Obj{
     constructor(container, src, width, height, x, y, velX, velY,hp){
         super(container, src, width, height, x, y, velX, velY);
         this.hpAr = [];
@@ -14,7 +14,17 @@ class Castle extends Obj{
             this.hpdiv.style.left = x+(parseFloat(this.hpdiv.style.width)*i) + "px";
             this.container.appendChild(this.hpdiv);
             this.hpAr.push(this.hpdiv);
-            
         }
     }
+    tick(){
+        this.velX = eneX;
+        this.x -= this.velX;
+    }
+    render(){
+        this.img.style.left = this.x + "px";
+        for(var i=0;i<this.hpAr.length;i++){
+            this.hpAr[i].style.left = parseInt(this.hpAr[i].style.left) - eneX + "px";
+        }
+    }
+
 }

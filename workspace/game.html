@@ -25,6 +25,9 @@
         background-color: bisque;
         position: absolute;
         right: 0px;
+        font-size: 25px;
+        text-align: center;
+        font-weight: bolder;
     }
     #content{
         width: 100%;
@@ -58,15 +61,26 @@
         float: left;
     }
     
+    .hero1_1 {
+	background: url('imgs/hero1.png') no-repeat -68px -50px;
+	width: 206px;
+	height: 281px;
+    }
+
+
+
+
 </style>
 
 
+<script src="../js/lib.js"></script>
 <script src="../js/Obj.js"></script>
 <script src="../js/Bg.js"></script>
 <script src="../js/Castle.js"></script>
 <script src="../js/Coin.js"></script>
 <script src="../js/Hero.js"></script>
 <script src="../js/ShowHero.js"></script>
+<script src="../js/Ene.js"></script>
 <script>
     var wrapper;
     var info;
@@ -75,12 +89,23 @@
     var hero_left;
     var hero_center;
     var hero_right;
+
+    
+    var imgArr=["ball1.png","ball2.png","ball3.png","ball4.png","ball5.png"];
     var heroArr=[];
     var heroShow;
-    var coin=0;
     var heroShowArr=[];
-    var imgArr=["ball1.png","ball2.png","ball3.png","ball4.png","ball5.png"];
+    
+    
+    var coin=0;
     var cnt =0;
+
+
+    var eneX = 10;
+    var eneArr=[];
+
+    var castle;
+    var castle2;
 
 
     function init(){
@@ -97,24 +122,25 @@
         createCoin();
         createHero();
         showCoin();
+        createEne();
 
         document.body.addEventListener("keydown", function(){
             pressDown();
         });
     
-        // document.body.addEventListener("keyup", function(){
-        //     pressUp();
-        // });
+        document.body.addEventListener("keyup", function(){
+            pressUp();
+        });
 
     }
     // 49~53
     // 97~101
     function pressDown(){
         switch(event.keyCode){
-            case 32:
-                coin++;
-                showCoin();
-                break;
+            // case 32:
+            //     coin++;
+            //     showCoin();
+            //     break;
             case 49:
             case 97:
                 hero_show("ball1.png",1);
@@ -137,6 +163,14 @@
                 break;
         }
     }
+    function pressUp(){
+        switch(event.keyCode){
+            case 32:
+                coin++;
+                showCoin();
+                break;
+        }
+    }
 
 
 
@@ -144,8 +178,8 @@
         var bg=new Bg(content, "../img/BG.png", 1800, 600, 0, 0, 0, 0);
     }
     function createCastle(){
-        var castle = new Castle(content,"../img/Objects/StoneBlock.png",100,500,0,100,0,0);
-        var castle2 = new Castle(content,"../img/Objects/StoneBlock.png",100,500,1700,100,0,0);
+        castle = new Castle(content,"../img/Objects/StoneBlock.png",100,500,0,100,0,0,10);
+        castle2 = new Castle(content,"../img/Objects/StoneBlock.png",100,500,1700,100,0,0,10);
     }
     function createCoin(){
         var coin = new Coin(hero_left,"../img/Objects/Crate.png",350,100,25,25,0,0);
@@ -161,11 +195,10 @@
         div.innerText = "COIN : "+coin;
     }
 
-
-
-
-
-
+    function createEne(){
+        var ene = new Ene(content,"../img/card/5.png",100,100,1600,500,eneX,0,5);
+        eneArr.push(ene);
+    }
 
 
 
@@ -180,31 +213,31 @@
         if(heroNum == 1){
             if(coin >= 10){
                 coin -=10;
-                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0,3);
                 heroShowArr.push(heroShow);
             }
         }else if(heroNum ==2){
             if(coin >= 20){
                 coin -=20;
-                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0,4);
                 heroShowArr.push(heroShow);
             }
         }else if(heroNum ==3){
             if(coin >= 30){
                 coin -=30;
-                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0,5);
                 heroShowArr.push(heroShow);
             }
         }else if(heroNum ==4){
             if(coin >= 40){
                 coin -=40;
-                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0,6);
                 heroShowArr.push(heroShow);
             }
         }else if(heroNum ==5){
             if(coin >= 50){
                 coin -=50;
-                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0);
+                heroShow = new ShowHero(content,"../img/ball/"+src,100,100,100,500,10,0,7);
                 heroShowArr.push(heroShow);
             }
         }
@@ -223,6 +256,12 @@
             heroShow.tick();
             heroShow.render();
         }
+
+        for(var i=0;i<eneArr.length;i++){
+            eneArr[i].tick();
+            eneArr[i].render();
+        }
+        
         
         if((cnt%10) == 0){
             coin++;
