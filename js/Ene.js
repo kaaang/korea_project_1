@@ -4,6 +4,8 @@ class Ene extends CharacterObj{
 
         this.cnt=0;
         this.hit_cnt=0;
+        this.attack_flag=false;
+        this.i;
     }
 
     tick(){
@@ -21,12 +23,15 @@ class Ene extends CharacterObj{
         this.bkh=this.move[this.cnt].height;
         this.cnt++;
     
+        
+
         for(var i=0;i<heroArr.length;i++){
             if(hitTest(this.box, heroArr[i].box)){
                 this.velX=0;
             }
         }
         
+
 
         
 
@@ -41,6 +46,9 @@ class Ene extends CharacterObj{
         if(this.hpAr.length==0){
             removeObject(content,eneArr[eneArr.indexOf(this)].box,eneArr,eneArr.indexOf(this));
             content.removeChild(this.hpbox);
+            // for(var i=0;i<heroArr.length;i++){
+            //     heroArr[i].
+            // }
         }
         
     }
@@ -54,5 +62,8 @@ class Ene extends CharacterObj{
         this.box.style.width=this.width+"px";
         this.box.style.height=this.height+"px";
     }
+
+    
+    
 
 }

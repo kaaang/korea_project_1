@@ -1,19 +1,19 @@
 class CharacterObj{
-    constructor(container, src, x, y, velX, velY, hp,move,attack){
+    constructor(container, src, x, container_height, velX, velY, hp,move,attack){
         this.container = container;
         this.src = src;
-        this.x=x;
-        this.y=y;
         this.velX=velX;
+        this.x=x;
         this.save_velX=this.velX;
         this.velY=velY;
         this.hp=hp;
         this.move=move;
         this.hpAr=[];
         this.attack=attack;
-
+        this.container_height=container_height;
         
-
+        
+        
         
         
         this.width=parseInt(move[0].width);
@@ -21,7 +21,9 @@ class CharacterObj{
         this.bkp=this.move[0].pos;
         this.bkw=this.move[0].width;
         this.bkh=this.move[0].height;
-
+        
+        this.y=this.container_height-parseInt(this.height);
+        
 
         this.box=document.createElement("div");
 

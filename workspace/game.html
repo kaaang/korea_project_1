@@ -184,7 +184,8 @@
         createCastle();
 
         //임시 적군 소환
-        createEne(ene3_move);
+        createEne(ene1_move);
+        createEne(ene2_move);
 
         document.body.addEventListener("keydown", function(){
             pressDown();
@@ -250,7 +251,7 @@
     function createHero(src,heroNum,move,attack){
         switch(heroNum){
             case 1:
-                var hero = new Hero(content,src,150,550,2,0,3,move,attack);
+                var hero = new Hero(content,src,150,590,2,0,3,move,attack);
                 heroArr.push(hero);
                 break;
             case 2:
@@ -265,9 +266,8 @@
     }
 
     function createEne(move){
-        // ene1에 대한 속성만 정의
-        //container, src, width, height, x, y, velX, velY, hp, attack
-        var ene = new Ene(content,"../img/c/ene.png",1200,500,2,0,7,move,move);
+        // constructor(container, src, x, y, velX, velY, hp,move,attack)
+        var ene = new Ene(content,"../img/c/ene.png",1200,590,2,0,7,move,move);
         eneArr.push(ene);
     }
 
@@ -332,7 +332,7 @@
     
     window.addEventListener("load",function(){
         init();
-        setInterval("gameLoop()",100);
+        setInterval("gameLoop()",50);
     });
 </script>
 

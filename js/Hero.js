@@ -68,7 +68,7 @@ class Hero extends CharacterObj{
             this.attack_cnt=0;
             removeObject(eneArr[i].hpbox,eneArr[i].hpAr[0], eneArr[i].hpAr,0);
             if(eneArr[i].hpAr.length==0){
-                this.attack_flag=false;
+                this.attack_flag=false;                
             }
         }
         this.width=parseInt(this.attack[this.attack_cnt].width);
