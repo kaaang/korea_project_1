@@ -95,6 +95,7 @@
 <script src="../js/CharacterObj.js"></script>
 <script src="../js/Hero.js"></script>
 <script src="../js/Ene.js"></script>
+<script src="../js/Coin.js"></script>
 <script>
 
     var content;
@@ -122,6 +123,100 @@
         {pos:"-427px -263px",width:"46px",height:"44px"},
         {pos:"-491px -256px",width:"51px",height:"51px"},
         {pos:"-558px -263px",width:"42px",height:"45px"}
+    ];
+
+
+
+    var hero2_move=[
+        {pos:"-22px -14px",width:"53px",height:"84px"},
+        {pos:"-96px -4px",width:"65px",height:"94px"},
+        {pos:"-174px -16p",width:"76px",height:"82px"},
+        {pos:"-274px -14px",width:"55px",height:"84px"},
+        {pos:"-350px -5px",width:"61px",height:"93px"},
+        {pos:"-428px -18px",width:"72px",height:"80px"}
+    ];
+    var hero2_attack=[
+        {pos:"-12px -340px",width:"65px",height:"84px"},
+        {pos:"-83px -330px",width:"75px",height:"94px"},
+        {pos:"-163px -342px",width:"76px",height:"82px"},
+        {pos:"-257px -340px",width:"65px",height:"84px"},
+        {pos:"-341px -331px",width:"73px",height:"93px"},
+        {pos:"-426px -344px",width:"77px",height:"80px"}
+    ];
+
+
+
+
+    var hero3_move=[
+        {pos:"-103px -33px",width:"136px",height:"147px"},
+        {pos:"-103px -33px",width:"136px",height:"147px"},
+        {pos:"-103px -33px",width:"136px",height:"147px"},
+        {pos:"-255px -3px",width:"134px",height:"147px"},
+        {pos:"-255px -3px",width:"134px",height:"147px"},
+        {pos:"-255px -3px",width:"134px",height:"147px"},
+        {pos:"-408px -24px",width:"129px",height:"155px"},
+        {pos:"-408px -24px",width:"129px",height:"155px"},
+        {pos:"-408px -24px",width:"129px",height:"155px"}
+    ];
+    var hero3_attack=[
+        {pos:"-22px -202px",width:"129px",height:"176px"},
+        {pos:"-22px -202px",width:"129px",height:"176px"},
+        {pos:"-22px -202px",width:"129px",height:"176px"},
+        {pos:"-161px -226px",width:"151px",height:"152px"},
+        {pos:"-161px -226px",width:"151px",height:"152px"},
+        {pos:"-161px -226px",width:"151px",height:"152px"},
+        {pos:"-322px -217px",width:"128px",height:"160px"},
+        {pos:"-322px -217px",width:"128px",height:"160px"},
+        {pos:"-322px -217px",width:"128px",height:"160px"}
+    ];
+
+
+
+
+
+    var hero4_move=[
+        {pos:"0px -256px",width:"80px",height:"116px"},
+        {pos:"-92px -256px",width:"91px",height:"116px"},
+        {pos:"-197px -258px",width:"100px",height:"113px"},
+        {pos:"-311px -255px",width:"91px",height:"116px"},
+        {pos:"-415px -255px",width:"81px",height:"116px"},
+        {pos:"-517px -255px",width:"81px",height:"116px"},
+        {pos:"-608px -255px",width:"91px",height:"116px"},
+        {pos:"-705px -258px",width:"100px",height:"113px"},
+        {pos:"-810px -255px",width:"90px",height:"116px"}
+    ];
+    var hero4_attack=[
+        {pos:"0px -380px",width:"59px",height:"61px"},
+        {pos:"-72px -381px",width:"61px",height:"60px"},
+        {pos:"-148px -381px",width:"59px",height:"61px"},
+        {pos:"-225px -381px",width:"61px",height:"60px"},
+        {pos:"-303px -381px",width:"97px",height:"60px"},
+        {pos:"-414px -381px",width:"98px",height:"61px"},
+        {pos:"-522px -381px",width:"98px",height:"61px"}
+    ];
+
+
+    var hero5_move=[
+        {pos:"-132px -333px",width:"119px",height:"52px"},
+        {pos:"-132px -333px",width:"119px",height:"52px"},
+        {pos:"-180px -587px",width:"108px",height:"73px"},
+        {pos:"-180px -587px",width:"108px",height:"73px"},
+        {pos:"-496px -314px",width:"110px",height:"71px"},
+        {pos:"-496px -314px",width:"110px",height:"71px"},
+        {pos:"-611px -294px",width:"90px",height:"91px"},
+        {pos:"-611px -294px",width:"90px",height:"91px"},
+        {pos:"-706px -334px",width:"109px",height:"51px"},
+        {pos:"-706px -334px",width:"109px",height:"51px"}
+    ];
+    var hero5_attack=[
+        {pos:"-113px -455px",width:"80px",height:"90px"},
+        {pos:"-113px -455px",width:"80px",height:"90px"},
+        {pos:"-198px -456px",width:"90px",height:"89px"},
+        {pos:"-198px -456px",width:"90px",height:"89px"},
+        {pos:"-293px -473px",width:"80px",height:"72px"},
+        {pos:"-293px -473px",width:"80px",height:"72px"},
+        {pos:"-389px -594px",width:"67px",height:"66px"},
+        {pos:"-389px -594px",width:"67px",height:"66px"}
     ];
 
 
@@ -154,6 +249,17 @@
         {pos:"-302px -399px",width:"58px",height:"113px"},
         {pos:"-426px -392px",width:"54px",height:"120px"}
     ];
+
+
+    var coin_move=[
+        {pos:"0px 0px", width:"84px", height: "84px"},
+        {pos:"-93px 0px", width:"66px", height: "84px"},
+        {pos:"-185px 0px", width:"50px", height: "84px"},
+        {pos:"-286px 0px", width:"15px", height: "84px"},
+        {pos:"-353px 0px", width:"50px", height: "84px"},
+        {pos:"-429px 0px", width:"66px", height: "84px"}
+
+    ];
     
 
 
@@ -182,10 +288,10 @@
         
         createCoin();
         createCastle();
+        appendCoin();
 
         //임시 적군 소환
         createEne(ene1_move);
-        createEne(ene2_move);
 
         document.body.addEventListener("keydown", function(){
             pressDown();
@@ -225,6 +331,8 @@
         switch(event.keyCode){
             case 32:
                 coin++;
+                turn_coin.tick();
+                turn_coin.render();
                 createCoin();
                 break;
         }
@@ -237,6 +345,13 @@
     function createCoin(){
         info_coin.innerText = "COIN : " +coin;
     }
+
+    function appendCoin(){
+        //container, src, x, y, move
+        // constructor(container, src, width, height, x, y, move){
+        turn_coin=new Coin(user_click,"../img/c/coin3.png",100,100,630,690,coin_move);
+    } 
+
 
     function createCastle(){
         //container, src, width, height, x, y, velX, velY, hp, attack
@@ -255,12 +370,20 @@
                 heroArr.push(hero);
                 break;
             case 2:
+                var hero = new Hero(content,src,150,590,2,0,3,move,attack);
+                heroArr.push(hero);
                 break;
             case 3:
+                var hero = new Hero(content,src,150,590,2,0,3,move,attack);
+                heroArr.push(hero);
                 break;
             case 4:
+                var hero = new Hero(content,src,150,590,2,0,3,move,attack);
+                heroArr.push(hero);
                 break;
             case 5:
+                var hero = new Hero(content,src,150,590,2,0,3,move,attack);
+                heroArr.push(hero);
                 break;
         }
     }
@@ -332,7 +455,7 @@
     
     window.addEventListener("load",function(){
         init();
-        setInterval("gameLoop()",50);
+        setInterval("gameLoop()",100);
     });
 </script>
 

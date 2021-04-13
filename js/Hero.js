@@ -43,11 +43,26 @@ class Hero extends CharacterObj{
         
         
 
+        // console.log("content",content);
+        // console.log("heroArr",heroArr);
+        // console.log("heroArr.indexOf(this)",heroArr.indexOf(this));
+        // console.log("heroArr[heroArr.indexOf(this)]",heroArr[heroArr.indexOf(this)]);
+        // console.log("heroArr.indexOf(this)",heroArr.indexOf(this));
 
+
+        // function removeObject(container,child,arr,index){
+        //     //화면에서 삭제
+        //     container.removeChild(child);
+        //     //메모리에서 삭제(배열에서 삭제)
+        //     arr.splice(index,1);
+        // }
         //나의 hp가 0이 되었을때 나를 삭제
         if(this.hpAr.length==0){
-            removeObject(content,heroArr[heroArr.indexOf(this)],heroArr,heroArr.indexOf(this));
+            removeObject(content,heroArr[heroArr.indexOf(this)].box,heroArr,heroArr.indexOf(this));
             content.removeChild(this.hpbox);
+            for(var i=0;i<eneArr.length;i++){
+                eneArr[i].attack_flag=false;
+            }
         }
     }
 
@@ -61,6 +76,7 @@ class Hero extends CharacterObj{
         this.box.style.backgroundHeight = this.bkh;
         this.box.style.width=this.width+"px";
         this.box.style.height=this.height+"px";
+        this.box.style.top=this.y+"px";
     }
 
     attack_action(i){
@@ -71,11 +87,14 @@ class Hero extends CharacterObj{
                 this.attack_flag=false;                
             }
         }
+
+        
         this.width=parseInt(this.attack[this.attack_cnt].width);
         this.height=parseInt(this.attack[this.attack_cnt].height);
         this.bkp=this.attack[this.attack_cnt].pos;
         this.bkw=this.attack[this.attack_cnt].width;
         this.bkh=this.attack[this.attack_cnt].height;
+        this.y=this.container_height-parseInt(this.height);
         this.attack_cnt++;
         
     }
