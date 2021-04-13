@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+</style>
+</head>
+<body>
+
+<h2>게시물의 수는 <%=communityList.length%></h2>
+
+<table>
+  <tr>
+    <th>No</th>
+    <th>이미지</th>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>등록일</th>
+    <th>조회수</th>
+  </tr>
+  <%var totalRecord= communityList.length;// 총 게시물 수%> 
+  <% for(var i=0; i<communityList.length; i++){ %>
+    <%var community=communityList[i];// 배열에서 json 하나 꺼내기%> 
+    <tr>
+      <!-- No -->
+      <td><%=(totalRecord--)%></td>
+      <!-- Image -->
+      <td><img src="/upload/<%=community.filename%>" width="45px"></td>
+      <!-- Title -->
+      <td>
+        <a href="/community/detail?community_id=<%=community.community_id%>"><%=community.title%></a>
+      </td>
+      <!-- Writer -->
+      <td><%=community.writer%></td>
+      <!-- Regdate -->
+      <%var d= new Date(community.regdate);%>
+      <td>
+        <%=d.getFullYear()%>-<%=lib.getZeroString(d.getMonth()+1)%>-<%=lib.getZeroString(d.getDate())%>
+      </td>
+      <!-- Page view -->
+      <td><%=community.hit%></td>
+      
+    </tr>
+  <%}%>
+  <tr>
+    <td colspan="6">
+      <button onClick="location.href='/community/community.html'">글등록</button>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
