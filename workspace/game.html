@@ -77,32 +77,38 @@
         box-sizing: border-box;
         border: 3px solid black;
         float: left;
+        
     }
 
     #hero1{
         background-image: url(../img/show/hero1.png);       
         background-size: 180px 130px;
         background-repeat: no-repeat;
+        opacity: 25%;
     }
     #hero2{
         background-image: url(../img/show/hero2.png);       
         background-size: 180px 130px;
         background-repeat: no-repeat;
+        opacity: 25%;
     }
     #hero3{
         background-image: url(../img/show/hero3.png);       
         background-size: 180px 130px;
         background-repeat: no-repeat;
+        opacity: 25%;
     }
     #hero4{
         background-image: url(../img/show/hero4.png);       
         background-size: 180px 130px;
         background-repeat: no-repeat;
+        opacity: 25%;
     }
     #hero5{
         background-image: url(../img/show/hero5.png);       
         background-size: 180px 130px;
         background-repeat: no-repeat;
+        opacity: 25%;
     }
     
 </style>
@@ -118,13 +124,12 @@
 <script src="../js/Ene.js"></script>
 <script src="../js/Coin.js"></script>
 <script>
-
     var stage = 1;
 
     var content;
     var info_coin;
 
-    var coin=50;
+    var coin=0;
     var coin_cnt=0;
 
     var my_castle;
@@ -136,11 +141,23 @@
     var ene_cnt=0;
 
     var flag = true;
+    var setLoop;
+
+    var heroopac =[];
+    var a;
 
 
     function init(){
         content = document.getElementById("content");
         info_coin = document.getElementById("info_coin");
+        setLoop=setInterval("gameLoop()",100);
+
+
+        for(var a=1;a<6;a++){
+            var hero=document.getElementById("hero"+a);
+            heroopac.push(hero);
+        }
+        
         
         createCoin();
         createCastle();
@@ -268,30 +285,27 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function opac(){
+        for(var i=0;i<5;i++){
+            if(coin >= i*10){
+                for(var j=0;j<i;j++){
+                    heroopac[j].style.opacity = "100%";
+                }
+                for(var z=i;z<5;z++){
+                    heroopac[z].style.opacity = "25%";
+                }
+            }
+        }
+    }
 
 
 
 
 
     function gameLoop(){
+
+        opac();
+
         coin_cnt++;
         if(coin_cnt%10 == 0){
             coin++
@@ -343,13 +357,33 @@
         }
 
 
+
+       if(my_castle.hpAr.length==0){ //retry
+        var div=document.createElement("div");
+            // div.style.position="absolute";
+            div.style.textAlign="center";
+            div.style.fontSize="200px";
+            div.style.textAlign="center";
+            div.style.color="sandybrown";
+            div.style.fontWeight="bold";
+            div.style.height=300+"px";
+            div.innerHTML="GAME OVER <br><a href=\"javascript:location.reload()\">Retry</a>";
+            content.appendChild(div);
+            clearInterval(setLoop);
+
+       }
+       if(ene_castle.hpAr.length==0){ // next
+            
+       }
+
+
     }
 
     
     
     window.addEventListener("load",function(){
         init();
-        setInterval("gameLoop()",40);
+        
     });
 </script>
 
