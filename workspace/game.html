@@ -123,7 +123,22 @@
 <script src="../js/Hero.js"></script>
 <script src="../js/Ene.js"></script>
 <script src="../js/Coin.js"></script>
+<script src="../js/howler.js"></script>
 <script>
+
+    var sound = new Howl({
+                src: ['../img/BossFight.mp3'],
+                autoplay: true,
+                loop: true,
+                volume: 0.5,
+                onend: function() {
+                    console.log('Finished!');
+                }
+            });
+            sound.play();
+
+
+
     var stage = 1;
 
     var content;
