@@ -5,6 +5,7 @@ class Hero extends CharacterObj{
         this.cnt=0;
         this.attack_cnt=0;
         this.attack_flag=false;
+        this.castle_attack_flag=false;
         this.i;
     }
 
@@ -35,8 +36,7 @@ class Hero extends CharacterObj{
 
 
 
-
-        if(!this.attack_flag){
+        if(!this.attack_flag && !this.castle_attack_flag){
             this.velX=this.save_velX;
             for(var i=0;i<eneArr.length;i++){
                 if(hitTest(this.box, eneArr[i].box)){
@@ -46,31 +46,23 @@ class Hero extends CharacterObj{
                     this.cnt=0;
                 }
             }
+            if(hitTest(this.box, ene_castle.box)){
+                this.castle_attack_flag=true;
+                this.velX=0;
+                this.cnt=0;
+            }
         }else{
-            this.attack_action(this.i);
+            if(this.attack_flag){
+                this.attack_action(this.i);
+            }
+            else if(this.castle_attack_flag){
+                this.castle_attack_action();
+            }
         }
         
         
-        
 
 
-
-
-
-
-        // console.log("content",content);
-        // console.log("heroArr",heroArr);
-        // console.log("heroArr.indexOf(this)",heroArr.indexOf(this));
-        // console.log("heroArr[heroArr.indexOf(this)]",heroArr[heroArr.indexOf(this)]);
-        // console.log("heroArr.indexOf(this)",heroArr.indexOf(this));
-
-
-        // function removeObject(container,child,arr,index){
-        //     //화면에서 삭제
-        //     container.removeChild(child);
-        //     //메모리에서 삭제(배열에서 삭제)
-        //     arr.splice(index,1);
-        // }
         //나의 hp가 0이 되었을때 나를 삭제
         if(this.hpAr.length==0){
             removeObject(content,heroArr[heroArr.indexOf(this)].box,heroArr,heroArr.indexOf(this));
@@ -112,5 +104,26 @@ class Hero extends CharacterObj{
         this.y=this.container_height-parseInt(this.height);
         this.attack_cnt++;
         
+    }
+
+    castle_attack_action(){
+
+        if(this.attack_cnt >= this.attack.length){
+            this.attack_cnt=0;
+            removeObject(ene_castle.hpbox,ene_castle.hpAr[0], ene_castle.hpAr,0);
+            if(ene_castle.hpAr.length==0){
+                this.castle_attack_flag=false;                
+            }
+        }
+
+
+        this.width=parseInt(this.attack[this.attack_cnt].width);
+        this.height=parseInt(this.attack[this.attack_cnt].height);
+        this.bkp=this.attack[this.attack_cnt].pos;
+        this.bkw=this.attack[this.attack_cnt].width;
+        this.bkh=this.attack[this.attack_cnt].height;
+        this.y=this.container_height-parseInt(this.height);
+        this.attack_cnt++;
+
     }
 }

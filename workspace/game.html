@@ -124,7 +124,7 @@
     var content;
     var info_coin;
 
-    var coin=0;
+    var coin=50;
     var coin_cnt=0;
 
     var my_castle;
@@ -215,6 +215,7 @@
         ene_castle = new Castle(content,"../img/ene_tower.png",150,450,1250,150,0,0,10);
     }
 
+  
 
 
 
@@ -340,13 +341,15 @@
                 }
                 break;
         }
+
+
     }
 
     
     
     window.addEventListener("load",function(){
         init();
-        setInterval("gameLoop()",100);
+        setInterval("gameLoop()",40);
     });
 </script>
 

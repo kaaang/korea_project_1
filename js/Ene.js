@@ -5,6 +5,7 @@ class Ene extends CharacterObj{
         this.cnt=0;
         this.attack_cnt=0;
         this.attack_flag=false;
+        this.castle_attack_flag=false;
         this.i;
     }
 
@@ -25,7 +26,7 @@ class Ene extends CharacterObj{
     
         
 
-        if(!this.attack_flag){
+        if(!this.attack_flag && !this.castle_attack_flag){
             this.velX=this.save_velX;
             for(var i=0;i<heroArr.length;i++){
                 if(hitTest(this.box, heroArr[i].box)){
@@ -35,19 +36,19 @@ class Ene extends CharacterObj{
                     this.cnt=0;
                 }
             }
+            if(hitTest(this.box, my_castle.box)){
+                this.castle_attack_flag=true;
+                this.velX=0;
+                this.cnt=0;
+            }
         }else{
-            this.attack_action(this.i);
+            if(this.attack_flag){
+                this.attack_action(this.i);
+            }else if(this.castle_attack_flag){
+                this.castle_attack_action();
+            }
         }
         
-
-
-        
-
-
-
-
-
-
 
 
         // 나의 hp가 0이 되었을때 나를 삭제
@@ -90,6 +91,27 @@ class Ene extends CharacterObj{
         this.y=this.container_height-parseInt(this.height);
         this.attack_cnt++;
         
+    }
+
+    castle_attack_action(){
+
+        if(this.attack_cnt >= this.attack.length){
+            this.attack_cnt=0;
+            removeObject(my_castle.hpbox,my_castle.hpAr[0], my_castle.hpAr,0);
+            if(my_castle.hpAr.length==0){
+                this.castle_attack_flag=false;
+            }
+        }
+
+
+        this.width=parseInt(this.attack[this.attack_cnt].width);
+        this.height=parseInt(this.attack[this.attack_cnt].height);
+        this.bkp=this.attack[this.attack_cnt].pos;
+        this.bkw=this.attack[this.attack_cnt].width;
+        this.bkh=this.attack[this.attack_cnt].height;
+        this.y=this.container_height-parseInt(this.height);
+        this.attack_cnt++;
+
     }
     
 
