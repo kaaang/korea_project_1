@@ -29,6 +29,13 @@ class Hero extends CharacterObj{
 
         this.cnt++;
 
+
+
+
+
+
+
+
         if(!this.attack_flag){
             this.velX=this.save_velX;
             for(var i=0;i<eneArr.length;i++){
@@ -44,6 +51,12 @@ class Hero extends CharacterObj{
         }
         
         
+        
+
+
+
+
+
 
         // console.log("content",content);
         // console.log("heroArr",heroArr);
