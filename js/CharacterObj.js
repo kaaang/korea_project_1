@@ -1,7 +1,8 @@
 class CharacterObj{
-    constructor(container, src, x, container_height, velX, velY, hp,move,attack){
+    constructor(container, move_src,attack_src, x, container_height, velX, velY, hp,move,attack){
         this.container = container;
-        this.src = src;
+        this.move_src = move_src;
+        this.attack_src = attack_src;
         this.velX=velX;
         this.x=x;
         this.save_velX=this.velX;
@@ -28,7 +29,7 @@ class CharacterObj{
         this.box=document.createElement("div");
 
         //이미지를 백그라운드로
-        this.box.style.background = "url("+src+")";
+        this.box.style.background = "url("+this.move_src+")";
 
         //-----------------------------------------------
         this.box.style.backgroundPosition = this.bkp;

@@ -1,6 +1,6 @@
 class Hero extends CharacterObj{
-    constructor(container, src, x, y, velX, velY, hp,move,attack){
-        super(container, src, x, y, velX, velY, hp,move,attack);
+    constructor(container, move_src,attack_src, x, container_height, velX, velY, hp,move,attack){
+        super(container, move_src,attack_src, x, container_height, velX, velY, hp,move,attack);
 
         this.cnt=0;
         this.attack_cnt=0;
@@ -12,6 +12,7 @@ class Hero extends CharacterObj{
 
 
     tick(){
+
         
         
 
@@ -78,12 +79,22 @@ class Hero extends CharacterObj{
         this.box.style.left = this.x + "px";
         this.hpbox.style.left=this.x+"px";
 
+        if(!(this.attack_flag) && !(this.castle_attack_flag)){
+            this.box.style.background = "url("+this.move_src+")";
+        }else if(this.attack_flag){
+            this.box.style.background = "url("+this.attack_src+")";
+        }else if(this.castle_attack_flag){
+            console.log("test");
+            this.box.style.background = "url("+this.attack_src+")";
+        }
         this.box.style.backgroundPosition = this.bkp;
         this.box.style.backgroundWidth = this.bkw;
         this.box.style.backgroundHeight = this.bkh;
         this.box.style.width=this.width+"px";
         this.box.style.height=this.height+"px";
         this.box.style.top=this.y+"px";
+
+       
     }
 
     attack_action(i){

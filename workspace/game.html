@@ -9,6 +9,8 @@
     #wrapper{
         width: 1400px;
         height: 800px;
+        box-sizing: border-box;
+        border: 3px solid black;
         background-color: antiquewhite;
         margin: auto;
         overflow: hidden;
@@ -20,18 +22,22 @@
         height: 50px;
         background-color: aquamarine;
         font-size: 25px;
-        text-align: center;
         font-weight: bold;
     }
     #info_status{
         width: 1200px;
         height: 50px;
+        box-sizing: border-box;
+        border: 3px solid black;
         background-color: burlywood;
         float: left;
     }
     #info_coin{
         width: 200px;
         height: 50px;
+        box-sizing: border-box;
+        border: 3px solid black;
+        text-align: center;
         background-color: cadetblue;
         float: left;
     }
@@ -42,7 +48,7 @@
         height: 600px;
         background-color:coral;
         position: relative;
-        background: url(../img/bg.jpg);
+        background: url(../img/bg.png);
         background-size: 1400px 600px;
     }
 
@@ -55,14 +61,16 @@
     #user_click{
         width: 200px;
         height: 150px;
-        background-color: cornsilk;
+        background-color:#402b1f;
+        box-sizing: border-box;
+        border: 9px solid black;
         float: left;
         position: relative;
     }
     #user_hero{
         width: 1000px;
         height: 150px;
-        background-color: darkgreen;
+        background-color: #8d603f;
         float: left;
     }
     #user_etc{
@@ -70,6 +78,26 @@
         height: 150px;
         background-color: darkgrey;
         float: left;
+    }
+    #info_hero{
+        width: 200px;
+        height: 75px;
+        box-sizing: border-box;
+        border: 2px solid black;
+        background-color: rgb(243, 217, 217);
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+    }
+    #info_ene{
+        width: 200px;
+        height: 75px;
+        box-sizing: border-box;
+        border: 2px solid black;
+        background-color: gray;
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
     }
 
     #user_hero div{
@@ -127,23 +155,25 @@
 <script src="../js/howler.js"></script>
 <script>
 
-    var sound = new Howl({
-                src: ['../img/BossFight.mp3'],
-                autoplay: true,
-                loop: true,
-                volume: 0.5,
-                onend: function() {
-                    console.log('Finished!');
-                }
-            });
-            sound.play();
+    // var sound = new Howl({
+    //             src: ['../img/BossFight.mp3'],
+    //             autoplay: true,
+    //             loop: true,
+    //             volume: 0.5,
+    //             onend: function() {
+    //                 console.log('Finished!');
+    //             }
+    //         });
+    //         sound.play();
 
 
 
-    var stage = 1;
 
     var content;
     var info_coin;
+    var info_status;
+    var info_hero;
+    var info_ene;
 
     var coin=0;
     var coin_cnt=0;
@@ -167,6 +197,9 @@
         content = document.getElementById("content");
         info_coin = document.getElementById("info_coin");
         setLoop=setInterval("gameLoop()",100);
+        info_status = document.getElementById("info_status");
+        info_hero=document.getElementById("info_hero");
+        info_ene=document.getElementById("info_ene");
 
 
         for(var a=1;a<6;a++){
@@ -195,23 +228,23 @@
         switch(event.keyCode){
             case 49:
             case 97:
-                createHero("../img/c/hero1.png",1,hero1_move,hero1_attack);
+                createHero("../img/c/hero1_move.png","../img/c/hero1_hit.png",1,hero1_move,hero1_attack);
                 break;
             case 50:
             case 98:
-                createHero("../img/c/hero2.png",2,hero2_move,hero2_attack);
+                createHero("../img/c/hero2_move.png","../img/c/hero2_hit.png",2,hero2_move,hero2_attack);
                 break;
             case 51:
             case 99:
-                createHero("../img/c/hero3.png",3,hero3_move,hero3_attack);
+                createHero("../img/c/hero3_move.png","../img/c/hero3_hit.png",3,hero3_move,hero3_attack);
                 break;
             case 52:
             case 100:
-                createHero("../img/c/hero4.png",4,hero4_move,hero4_attack);
+                createHero("../img/c/hero4_move.png","../img/c/hero4_hit.png",4,hero4_move,hero4_attack);
                 break;
             case 53:
             case 101:
-                createHero("../img/c/hero5.png",5,hero5_move,hero5_attack);
+                createHero("../img/c/hero5_move.png","../img/c/hero5_hit.png",5,hero5_move,hero5_attack);
                 break;
         }
     }
@@ -244,8 +277,8 @@
 
     function createCastle(){
         //container, src, width, height, x, y, velX, velY, hp, attack
-        my_castle = new Castle(content,"../img/my_tower.png",150,450,0,150,0,0,10);
-        ene_castle = new Castle(content,"../img/ene_tower.png",150,450,1250,150,0,0,10);
+        my_castle = new Castle(content,"../img/my_tower1.png",150,450,0,150,0,0,10);
+        ene_castle = new Castle(content,"../img/ene_tower1.png",150,450,1250,150,0,0,10);
     }
 
   
@@ -253,39 +286,39 @@
 
 
 
-    function createHero(src,heroNum,move,attack){
+    function createHero(move_src,attack_src,heroNum,move,attack){
         switch(heroNum){
             case 1:
                 if(coin >= 10){
-                    var hero = new Hero(content,src,150,590,2,0,3,move,attack);
+                    var hero = new Hero(content,move_src,attack_src,150,590,2,0,1,move,attack);
                     heroArr.push(hero);
                     coin -=10;
                 }
                 break;
             case 2:
                 if(coin >= 20){
-                    var hero = new Hero(content,src,150,590,3,0,4,move,attack);
+                    var hero = new Hero(content,move_src,attack_src,150,590,3,0,3,move,attack);
                     heroArr.push(hero);
                     coin -=20;
                 }
                 break;
             case 3:
                 if(coin >= 30){
-                    var hero = new Hero(content,src,150,590,4,0,5,move,attack);
+                    var hero = new Hero(content,move_src,attack_src,150,590,4,0,5,move,attack);
                     heroArr.push(hero);
                     coin -=30;
                 }
                 break;
             case 4:
                 if(coin >= 40){
-                    var hero = new Hero(content,src,150,590,5,0,6,move,attack);
+                    var hero = new Hero(content,move_src,attack_src,150,590,5,0,6,move,attack);
                     heroArr.push(hero);
                     coin -=40;
                 }
                 break;
             case 5:
                 if(coin >= 50){
-                    var hero = new Hero(content,src,150,590,6,0,7,move,attack);
+                    var hero = new Hero(content,move_src,attack_src,150,590,6,0,7,move,attack);
                     heroArr.push(hero);
                     coin -=50;
                 }
@@ -293,16 +326,15 @@
         }
     }
 
-    function createEne(move, speed, hp){
-        // constructor(container, src, x, y, velX, velY, hp,move,attack)
-        var ene = new Ene(content,"../img/c/ene.png",1200,590,speed,0,hp,move,move);
+    function createEne(move,attack, speed, hp,move_src,attack_src){
+        var ene = new Ene(content,move_src,attack_src,1200,590,speed,0,hp,move,attack);
         eneArr.push(ene);
     }
 
 
 
     function opac(){
-        for(var i=0;i<5;i++){
+        for(var i=1;i<=5;i++){
             if(coin >= i*10){
                 for(var j=0;j<i;j++){
                     heroopac[j].style.opacity = "100%";
@@ -314,6 +346,12 @@
         }
     }
 
+    function info(){
+        info_status.innerText = "SCORE : "+coin_cnt;
+        info_hero.innerText = "HERO : "+heroArr.length;
+        info_ene.innerText = "ENEMY : "+eneArr.length;
+    }
+    
 
 
 
@@ -345,32 +383,34 @@
 
 
 
-                // createEne(ene1_move);
-                // function createEne(move, speed, hp){
 
         ene_cnt++;
-        switch(stage){
-            case 1:
-                if(ene_cnt % 200 == 0){
-                    createEne(ene1_move,1,5);
-                }
-                break;
-            case 2:
-                if(ene_cnt % 170 == 0){
-                    createEne(ene2_move,1,7);
-                }
-                break;
-            case 3:
-                if(ene_cnt % 170 == 0){
-                    createEne(ene3_move,2,6);
-                }
-                break;
-            case 4:
-                if(ene_cnt % 150 == 0){
-                    createEne(ene4_move,3,7);
-                }
-                break;
+        if(ene_cnt%50 == 0){
+            var ran = getRandom(6)+1;
+            switch(ran){
+                case 1:
+                    createEne(ene1_move,ene1_attack,1,3,"../img/c/ene1_move.png","../img/c/ene1_hit.png");
+                    break;
+                case 2:
+                    createEne(ene2_move,ene2_attack,2,4,"../img/c/ene2_move.png","../img/c/ene2_hit.png");
+                    break;
+                case 3:
+                    createEne(ene3_move,ene3_attack,4,5,"../img/c/ene3_move.png","../img/c/ene3_hit.png");
+                    break;
+                case 4:
+                    createEne(ene4_move,ene4_attack,5,6,"../img/c/ene4_move.png","../img/c/ene4_hit.png");
+                    break;
+                case 5:
+                    createEne(ene5_move,ene5_attack,6,7,"../img/c/ene5_move.png","../img/c/ene5_hit.png");
+                    break;
+                case 6:
+                    createEne(ene6_move,ene6_attack,8,8,"../img/c/ene6_move.png","../img/c/ene6_hit.png");
+                    break;
+            }
+            
         }
+
+        
 
 
 
@@ -389,10 +429,11 @@
 
        }
        if(ene_castle.hpAr.length==0){ // next
-            alert("end");
+            alert("score : "+(coin_cnt+coin));
        }
 
 
+       info();
     }
 
     
@@ -414,13 +455,16 @@
         <div id="user">
             <div id="user_click"></div>
             <div id="user_hero">
-                <div id="hero1" onclick="createHero('../img/c/hero1.png',1,hero1_move,hero1_attack)"></div>
-                <div id="hero2" onclick="createHero('../img/c/hero2.png',2,hero2_move,hero2_attack)"></div>
-                <div id="hero3" onclick="createHero('../img/c/hero3.png',3,hero3_move,hero3_attack)"></div>
-                <div id="hero4" onclick="createHero('../img/c/hero4.png',4,hero4_move,hero4_attack)"></div>
-                <div id="hero5" onclick="createHero('../img/c/hero5.png',5,hero5_move,hero5_attack)"></div>
+                <div id="hero1" onclick="createHero('../img/c/hero1_move.png','../img/c/hero1_hit.png',1,hero1_move,hero1_attack)"></div>
+                <div id="hero2" onclick="createHero('../img/c/hero2_move.png','../img/c/hero2_hit.png',2,hero2_move,hero2_attack)"></div>
+                <div id="hero3" onclick="createHero('../img/c/hero3_move.png','../img/c/hero3_hit.png',3,hero3_move,hero3_attack)"></div>
+                <div id="hero4" onclick="createHero('../img/c/hero4_move.png','../img/c/hero4_hit.png',4,hero4_move,hero4_attack)"></div>
+                <div id="hero5" onclick="createHero('../img/c/hero5_move.png','../img/c/hero5_hit.png',5,hero5_move,hero5_attack)"></div>
             </div>
-            <div id="user_etc"></div>
+            <div id="user_etc">
+                <div id="info_hero"></div>
+                <div id="info_ene"></div>
+            </div>
         </div>
     </div>
 </body>
