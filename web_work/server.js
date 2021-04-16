@@ -2,7 +2,7 @@ var http = require("http");
 var express = require("express");
 var static=require("serve-static");
 var ejs=require("ejs");
-var mymodule=require("./lib/libary.js");
+var mymodule=require("./lib/library.js");
 var path=require("path");
 
 var multer=require("multer");
@@ -33,13 +33,69 @@ app.use(express.urlencoded({extended:true}));
 app.set("view engine","ejs");
 
 var expressSession=require("express-session"); //서버측의 세션을 관리하는 모듈
-const { request } = require("express");
 //세션 설정   -> use : 미들웨어
 app.use(expressSession({
     secret:"key secret",
     resave:true,
     saveUninitialized:true
 }));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

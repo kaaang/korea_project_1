@@ -12,3 +12,28 @@
 
 회원가입
 /doublekj/join
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+설치
+npm install express
+npm install ejs
+npm install serve-static
+npm install mysql
+npm install multer
+npm install express-session
