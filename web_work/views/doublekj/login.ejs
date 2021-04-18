@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<%- include('../inc/plugin')%>
+<style>
+
+
+#user_wrapper {font-family: Arial, Helvetica, sans-serif;box-sizing: border-box; width: 600px; margin: auto; justify-content: center;
+    align-items : center;}
+#user_wrapper * {box-sizing: border-box; width: 600px; margin: auto; justify-content: center;
+    align-items : center;}
+#user_wrapper input[type=text],#user_wrapper input[type=password]{
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+#user_wrapper input[type=button] {
+  background-color: #4887fc;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100px;
+}
+#user_wrapper input[type=button]:hover {
+  background-color: rgb(173, 230, 253);
+}
+.user_container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  display: inline-block;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(function(){
+    $($("input[type=button]")[0]).click(function(){
+        //아이디 비어있음 체크
+        if($("#user_id").val()==""){
+            alert("아이디를 입력해주세요");
+            return;
+        }
+        //비밀번호 비어있음 체크
+        if($("#user_pass").val()==""){
+            alert("비밀번호를 입력해주세요");
+            return;
+        }
+        $("form").attr("action","/doublekj/login"); //주소 정해지면 넣기
+        $("form").attr("method","post");
+        $("form").submit();
+    });
+});
+</script>
+</head>
+
+
+
+
+
+
+
+
+
+
+<body>
+  <%- include('../inc/header')%>
+
+
+
+
+  <div id="user_wrapper">
+    <h2 align="center" style="font-size: 40px; font-family:궁서체; margin-top: 30px;">진지하게 놀아보자</h2>
+    <br><div class="user_container">
+      <form>
+        <label for="user_id">ID</label><br>
+        <input type="text" id="user_id" name="user_id" placeholder="아이디를 입력해주세요"><br>
+    
+        <label for="user_pass">비밀번호</label><br>
+        <input type="password" id="user_pass" name="user_pass" placeholder="비밀번호 입력해주세요"><br>
+    
+        <br><input type="button" value="로그인">
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%- include('../inc/footer')%>
+</body>
+</html>

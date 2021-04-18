@@ -37,3 +37,12 @@ exports.getMsgUrl=function(msg,url){
     tag+="</script>"
     return tag; // 함수 호출자에게 최종저긍로 생산된 태그문자열 반환
 }
+
+
+exports.getMsgBack=function(msg){
+    var tag="<script>";
+    tag+="alert('"+msg+"');";
+    tag+="history.back();";
+    tag+="</script>";
+    return tag;
+}
