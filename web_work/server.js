@@ -68,6 +68,11 @@ app.get("/doublekj/main",function(request, response){
     response.render("index");
 });
 
+app.get("/doublekj/game",function(request, response){
+    response.render("game/game");
+});
+
+
 
 
 
@@ -111,7 +116,7 @@ app.post("/doublekj/join", function(request, response){
 
 //로그인 폼 요청
 app.get("/doublekj/loginform", function(request, response){
-    response.render("doublekj/login");
+    response.render("doublekj/login2");
 });
 
 //로그인 요청처리
@@ -367,7 +372,14 @@ app.post("/community/delete",upload.single("pic"),function(req,res){
 
 
 
+/*-----------------------------------------------------------------------------
+주윤씨
+-----------------------------------------------------------------------------*/
 
+
+/*-----------------------------------------------------------------------------
+주윤씨
+-----------------------------------------------------------------------------*/
 
 
 

@@ -3,67 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+
 <style>
-table {
+#user_list table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
   border: 1px solid #ddd;
 }
 
-th, td {
+#user_list th,#user_list td {
   text-align: left;
   padding: 16px;
 }
 
-tr:nth-child(even) {
+#user_list tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+#user_img{
+  width: 45px;
 }
 </style>
 </head>
 <body>
+  
+  <div class="wrapper row0">
+    <div id="topbar" class="hoc clear">
+      <div class="fl_left"> 
+        <ul class="nospace">
+          <li><i class="fas fa-phone rgtspace-5"></i> +00 (123) 456 7890</li>
+          <li><i class="far fa-envelope rgtspace-5"></i> DoubleKJ@domain.com</li>
+        </ul>
+      </div>
+      <div class="fl_right"> 
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <div class="wrapper row1">
+    <header id="header" class="hoc clear">
+      <div id="logo" class="fl_left"> 
+         
+        <!-- 경로 수정 -->
+        <h1><a href="/doublekj/main">DOUBLEKJ</a></h1>
+         
+      </div>
+      <nav id="mainav" class="fl_right"> 
+         
+        <ul class="clear">
+  
+          <!-- 경로 수정 -->
+          <li class="active"><a href="/doublekj/main">Home</a></li>
+          <li class="active"><a href="#">Game</a></li>
+          <li class="active"><a href="/community/list">community</a></li>
+          <li class="active"><a href="#">ranking</a></li>
+          <li class="active"><a href="#">고객센터</a></li>
+        </ul>
+         
+      </nav>
+    </header>
+  </div>
 
-<h2>게시물의 수는 <%=communityList.length%></h2>
 
-<table>
-  <tr>
-    <th>No</th>
-    <th>이미지</th>
-    <th>제목</th>
-    <th>작성자</th>
-    <th>등록일</th>
-    <th>조회수</th>
-  </tr>
-  <%var totalRecord= communityList.length;// 총 게시물 수%> 
-  <% for(var i=0; i<communityList.length; i++){ %>
-    <%var community=communityList[i];// 배열에서 json 하나 꺼내기%> 
-    <tr>
-      <!-- No -->
-      <td><%=(totalRecord--)%></td>
-      <!-- Image -->
-      <td><img src="/upload/<%=community.filename%>" width="45px"></td>
-      <!-- Title -->
-      <td>
-        <a href="/community/detail?community_id=<%=community.community_id%>"><%=community.title%></a>
-      </td>
-      <!-- Writer -->
-      <td><%=community.writer%></td>
-      <!-- Regdate -->
-      <%var d= new Date(community.regdate);%>
-      <td>
-        <%=d.getFullYear()%>-<%=lib.getZeroString(d.getMonth()+1)%>-<%=lib.getZeroString(d.getDate())%>
-      </td>
-      <!-- Page view -->
-      <td><%=community.hit%></td>
-      
-    </tr>
-  <%}%>
-  <tr>
-    <td colspan="6">
-      <button onClick="location.href='/community/community.html'">글등록</button>
-    </td>
-  </tr>
-</table>
+
+  <div id="user_list">
+    <h2>게시물의 수는 <%=communityList.length%></h2>
+    
+    <table>
+      <tr>
+        <th>No</th>
+        <th>이미지</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>등록일</th>
+        <th>조회수</th>
+      </tr>
+      <%var totalRecord= communityList.length;// 총 게시물 수%> 
+      <% for(var i=0; i<communityList.length; i++){ %>
+        <%var community=communityList[i];// 배열에서 json 하나 꺼내기%> 
+        <tr>
+          <!-- No -->
+          <td><%=(totalRecord--)%></td>
+          <!-- Image -->
+          <td><img src="/upload/<%=community.filename%>" id="user_img"></td>
+          <!-- Title -->
+          <td>
+            <a href="/community/detail?community_id=<%=community.community_id%>"><%=community.title%></a>
+          </td>
+          <!-- Writer -->
+          <td><%=community.writer%></td>
+          <!-- Regdate -->
+          <%var d= new Date(community.regdate);%>
+          <td>
+            <%=d.getFullYear()%>-<%=lib.getZeroString(d.getMonth()+1)%>-<%=lib.getZeroString(d.getDate())%>
+          </td>
+          <!-- Page view -->
+          <td><%=community.hit%></td>
+          
+        </tr>
+      <%}%>
+      <tr>
+        <td colspan="6">
+          <button onClick="location.href='/community/community.html'">글등록</button>
+        </td>
+      </tr>
+    </table>
+  
+  </div>
+
+  <div class="wrapper row4">
+    <footer id="footer" class="hoc clear"> 
+       
+      <div class="one_quarter first">
+        <h6 class="heading">Id ornare et lorem sed</h6>
+        <ul class="nospace linklist contact btmspace-30">
+          <li><i class="fas fa-map-marker-alt"></i>
+            <address>
+            Seoul
+            </address>
+          </li>
+          <li><i class="fas fa-phone"></i> +00 (123) 456 7890</li>
+          <li><i class="far fa-envelope"></i> info@domain.com</li>
+        </ul>
+        
+      </div>
+      <div class="one_quarter">
+        <h6 class="heading">Lacinia nunc et porta</h6>
+        <ul class="nospace linklist">
+          <li>
+            <article>
+              <p class="nospace btmspace-10"><a href="#">Porta tellus massa consectetuer sem eget pharetra ligula purus sit amet dui.</a></p>
+              <time class="block font-xs" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045</time>
+            </article>
+          </li>
+          <li>
+            <article>
+              <p class="nospace btmspace-10"><a href="#">Commodo ornare maximus donec consectetuer adipiscing elit pellentesque habitant.</a></p>
+              <time class="block font-xs" datetime="2045-04-05">Thursday, 5<sup>th</sup> April 2045</time>
+            </article>
+          </li>
+        </ul>
+      </div>
+      <div class="one_quarter">
+        <h6 class="heading">Non lobortis felis lacus</h6>
+        <ul class="nospace linklist">
+          <li><a href="#">Morbi tristique senectus</a></li>
+          <li><a href="#">Habitasse platea dictumst</a></li>
+          <li><a href="#">Egestas in hac habitasse</a></li>
+          <li><a href="#">Tellus ac convallis pellentesque</a></li>
+          <li><a href="#">Lacus tortor varius erat</a></li>
+        </ul>
+      </div>
+      <div class="one_quarter">
+        <h6 class="heading">Platea dictumst fusce</h6>
+        <ul class="nospace clear latestimg">
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+          <li><a class="imgover" href="#"><img src="/images/demo/100x100.png" alt=""></a></li>
+        </ul>
+      </div>
+       
+    </footer>
+  </div>
+   
+   
+   
+  <div class="wrapper row5">
+    <div id="copyright" class="hoc clear"> 
+       
+      <p class="fl_left">Copyright &copy; 2018 - All Rights Reserved - <a href="#">DoubleKJ</a></p>
+      <p class="fl_right">Template by <a target="_blank" href="https://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
+       
+    </div>
+  </div>
+   
+   
+   
+  <a id="backtotop" href="#top"><i class="fas fa-chevron-up"></i></a>
+  <!-- JAVASCRIPTS -->
+  <script src="/layout/scripts/jquery.min.js"></script>
+  <script src="/layout/scripts/jquery.backtotop.js"></script>
+  <script src="/layout/scripts/jquery.mobilemenu.js"></script>
 
 </body>
 </html>

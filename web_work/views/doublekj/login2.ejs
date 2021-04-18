@@ -1,0 +1,151 @@
+<DOCTYPE HTML5>
+  <html>
+    <head>
+      <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            text-decoration: none;
+            font-family:sans-serif;
+          }
+          
+          body {
+            background-color: #34495e;
+          }
+          
+          .loginForm {
+            position:absolute;
+            width:300px;
+            height:450px;
+            padding: 30px, 20px;
+            background-color:#FFFFFF;
+            text-align:center;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            border-radius: 15px;
+          }
+          
+          .loginForm h2{
+            text-align: center;
+            margin: 30px;
+          }
+          
+          .idForm{
+            border-bottom: 2px solid #adadad;
+            margin: 30px;
+            padding: 10px 10px;
+          }
+          
+          .passForm{
+            border-bottom: 2px solid #adadad;
+            margin: 30px;
+            padding: 10px 10px;
+          }
+          
+          #user_id {
+            width: 100%;
+            border:none;
+            outline:none;
+            color: #636e72;
+            font-size:16px;
+            height:25px;
+            background: none;
+          }
+          
+          #user_pass {
+            width: 100%;
+            border:none;
+            outline:none;
+            color: #636e72;
+            font-size:16px;
+            height:25px;
+            background: none;
+          }
+          
+          .btn{
+            position:relative;
+            left:40%;
+            transform: translateX(-50%);
+            margin-bottom: 40px;
+            width:80%;
+            height:40px;
+            background: linear-gradient(125deg,#81ecec,#6c5ce7,#81ecec);
+            background-position: left;
+            background-size: 200%;
+            color:white;
+            font-weight: bold;
+            border:none;
+            cursor:pointer;
+            transition: 0.4s;
+            display:inline;
+          }
+          .btn2 {
+            position:relative;
+            left:40%;
+            transform: translateX(-50%);
+            margin-bottom: 40px;
+            width:80%;
+            height:40px;
+            background: linear-gradient(125deg,#f3c1fc,#b151b4,#5b1961);
+            background-position: left;
+            background-size: 200%;
+            color:white;
+            font-weight: bold;
+            border:none;
+            cursor:pointer;
+            transition: 0.4s;
+            display:inline;
+          }
+
+          .btn:hover,.btn2:hover{
+            background-position: right;
+          }
+          
+          .bottomText {
+            text-align: center;
+          }
+      </style>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+          $(function(){
+            $($("input[type=button]")[0]).click(function(){
+                //아이디 비어있음 체크
+                if($("#user_id").val()==""){
+                    alert("아이디를 입력해주세요");
+                    return;
+                }
+                //비밀번호 비어있음 체크
+                if($("#user_pass").val()==""){
+                    alert("비밀번호를 입력해주세요");
+                    return;
+                }
+                $("form").attr("action","/doublekj/login"); //주소 정해지면 넣기
+                $("form").attr("method","post");
+                $("form").submit();
+            });
+              //두번쨰 버튼 누르면 메인으로 돌아가기
+              $($("input[type=button]")[1]).click(function(){
+              location.href="/doublekj/main";
+            });
+          });
+        </script>
+    </head>
+  
+    <body width="100%" height="100%">
+      <form class="loginForm">
+        <h2>Login</h2>
+        <div class="idForm">
+          <input type="text" id="user_id" name="user_id" placeholder="ID">
+        </div>
+        <div class="passForm">
+          <input type="password" id="user_pass" name="user_pass" placeholder="PW">
+        </div>
+        <input type="button" class="btn" value="로그인">
+        <input type="button" class="btn2" value="다음에 가입할게요">
+        <div class="bottomText">
+          Don't you have ID? <a href="/doublekj/joinform">sign up</a>
+        </div>
+      </form>
+    </body>
+  </html>
