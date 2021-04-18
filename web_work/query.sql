@@ -18,3 +18,13 @@ gamedata_id int primary key auto_increment
 ,playcount int
 ,constraint fk_usergame foreign key (user_list_id)  references user_list(user_list_id)
 )default character set utf8;
+
+create  table community(
+    community_id int  primary key auto_increment 
+   , title varchar(100)    
+   , writer varchar(20)
+   , content text 
+   , regdate  timestamp  default now()
+   , hit int default 0 
+   , filename varchar(30)
+) default  character set  utf8;

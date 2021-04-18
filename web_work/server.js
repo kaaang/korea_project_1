@@ -2,8 +2,19 @@ var http = require("http");
 var express = require("express");
 var static=require("serve-static");
 var ejs=require("ejs");
-var mymodule=require("./lib/library.js");
+var lib=require("./lib/library.js");
 var path=require("path");
+var fs=require("fs");
+
+
+
+var app=express();
+app.use(static(__dirname+"/static"));
+app.use(express.urlencoded({extended:true}));
+app.set("view engine","ejs");
+
+
+
 
 var multer=require("multer");
 var upload = multer({
@@ -27,10 +38,6 @@ const conStr={
 }
 
 
-var app=express();
-app.use(static(__dirname+"/static"));
-app.use(express.urlencoded({extended:true}));
-app.set("view engine","ejs");
 
 var expressSession=require("express-session"); //서버측의 세션을 관리하는 모듈
 //세션 설정   -> use : 미들웨어
@@ -63,6 +70,13 @@ app.get("/doublekj/main",function(request, response){
 
 
 
+
+
+
+/*-----------------------------------------------------------------------------
+하연씨
+-----------------------------------------------------------------------------*/
+
 //회원가입 폼 요청
 app.get("/doublekj/joinform", function(request, response){
     console.log("회원가입 페이지");
@@ -86,11 +100,13 @@ app.post("/doublekj/join", function(request, response){
         if(err){
             console.log("등록 중 에러", err);
         }else{
-            response.redirect("/doublekj/main"); //클라이언트로 하여금 지정한 url로 재접속을 유도함
+            response.redirect("/doublekj/main");
         }
         con.end();
     });
 });
+
+
 
 
 //로그인 폼 요청
@@ -115,7 +131,7 @@ app.post("/doublekj/login", function(request, response){
             if(result.length<1){
                 console.log("로그인실패");
                 response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
-                response.end(mymodule.getMsgBack("로그인 정보가 올바르지 않습니다."));
+                response.end(lib.getMsgBack("로그인 정보가 올바르지 않습니다."));
             }else{
                 request.session.user_list={
                     user_list_id:result[0].user_list_id,
@@ -124,16 +140,230 @@ app.post("/doublekj/login", function(request, response){
                     user_name:result[0].user_name
                 };
                 response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
-                response.end(mymodule.getMsgUrl("로그인성공","/doublekj/main"));
+                response.end(lib.getMsgUrl("로그인성공","/doublekj/main"));
             }
         }
         con.end();
     });
 });
+/*-----------------------------------------------------------------------------
+하연씨
+-----------------------------------------------------------------------------*/
 
 
 
 
+
+/*-----------------------------------------------------------------------------
+진아씨
+-----------------------------------------------------------------------------*/
+
+app. get("/community/list",function(req,res){
+    // mysql 접속
+    var con= mysql.createConnection(conStr);
+    var sql= "select * from community order by community_id desc";
+    con.query(sql,function(err,result,fields){
+        if(err){
+            console.log("리스트를 불러오지 못했습니다.",err);
+        }else{
+            fs.readFile("./views/community/list.ejs","utf8",function(error,data){
+                if(error){
+                    console.log(error);
+                }else{
+                    res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                    res.end(ejs.render(data,{
+                        communityList:result,
+                        lib:lib
+                    }));
+                }
+            });
+        }
+        con.end();
+    });
+});
+
+// 글 등록
+app.post("/community/write",upload.single("pic"),function(req,res){
+    // parameter
+    var title=req.body.title;
+    var writer=req.body.writer;
+    var content=req.body.content;
+    var filename=req.body.filename; // multer 이용하여 기존 req객체에 추가된 것 
+
+    if(req.file != undefined){
+        var filename=req.file.filename
+        var con = mysql.createConnection(conStr);
+        var sql = "insert into community(title, writer, content,filename) values(?,?,?,?)";
+        con.query(sql,[title,writer,content,filename],function(error, fields){
+            if(error){
+                console.log(error);
+            }else{
+                res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                res.end(lib.getMsgUrl("등록완료","/community/list"));
+            }
+            con.end();
+        });
+    }else{
+        var sql="insert into community(title, writer, content) values(?,?,?)";
+        var con= mysql.createConnection(conStr);
+        con.query(sql,[title, writer, content],function(err0r,fields){
+            if(err0r){
+                console.log("수정 실패", err0r);
+            }else{
+                res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                res.end(lib.getMsgUrl("등록 완료","/community/list"));
+            }
+            con.end(); // mysql 종료
+        });
+    }
+    
+});
+
+// 상세보기
+app.get("/community/detail",function(req,res){
+    // mysql 접속
+    var con= mysql.createConnection(conStr);
+    var community_id= req.query.community_id;
+    var sql= "select * from community where community_id="+community_id;
+    con.query(sql,function(err,result,fields){
+        if(err){
+            console.log("상세보기에 실패하였습니다.",err);
+        }else{
+            fs.readFile("./views/community/detail.ejs","utf8",function(error,data){
+                if(error){
+                    console.log("상세보기 읽어드리기에 실패하였습니다.",error);
+                }else{
+                    var renderResult=ejs.render(data,{
+                        community:result[0]
+                    });
+                    res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                    res.end(renderResult);
+                }
+            });
+        }
+        con.end(); // mysql 접속 종료
+    });
+});
+
+// 수정
+app.post("/community/edit",upload.single("pic"),function(req,res){
+    // parameter
+    var title=req.body.title;
+    var writer=req.body.writer;
+    var content=req.body.content;
+    var filename=req.body.filename;
+    var community_id=req.body.community_id;
+    
+    if(req.file != undefined && filename != ""){ // pic+db 수정
+        // var filename=req.file.filename;
+        fs.unlink(__dirname+"/static/upload/"+filename,function(err){
+            if(err){
+                console.log("접근 실패",err)
+            }else{
+                filename= req.file.filename; // 새롭게 수정 된 파일의 이름 부여
+                // mysql 접속
+                var sql= "update community set title=?, writer=?, content=?, filename=? where community_id=?";
+                var con= mysql.createConnection(conStr);
+                con.query(sql,[title,writer,content,filename,community_id],function(error,fields){
+                    if(error){
+                        console.log("사진 수정 실패",error);
+                    }else{
+                        res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                        res.end(lib.getMsgUrl("수정 완료","/community/detail?community_id="+community_id));
+                    }
+                    con.end(); // mysql 접속 종료
+                });
+            }
+        });
+        
+    }else if(req.file != undefined && filename == ""){
+        filename= req.file.filename; // 새롭게 수정 된 파일의 이름 부여
+        // mysql 접속
+        var sql= "update community set title=?, writer=?, content=?, filename=? where community_id=?";
+        var con= mysql.createConnection(conStr);
+        con.query(sql,[title,writer,content,filename,community_id],function(error,fields){
+            if(error){
+                console.log("사진 수정 실패",error);
+            }else{
+                res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                res.end(lib.getMsgUrl("수정 완료","/community/detail?community_id="+community_id));
+            }
+            con.end(); // mysql 접속 종료
+        });
+    }
+    else if(req.file == undefined){
+       
+        // mysql 접속
+        var sql= "update community set title=?, writer=?, content=? where community_id=?";
+        var con= mysql.createConnection(conStr);
+        con.query(sql,[title,writer,content,community_id],function(error,fields){
+            if(error){
+                console.log("사진 수정 실패",error);
+            }else{
+                res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                res.end(lib.getMsgUrl("수정 완료","/community/detail?community_id="+community_id));
+            }
+            con.end(); // mysql 접속 종료
+        });
+    }else{ // only db수정
+        var sql= "update community set title=?, writer=?, content=? where community_id=?";
+        var con= mysql.createConnection(conStr);
+        con.query(sql,[title,writer,content,community_id],function(error1,field){
+            if(error1){
+                console.log("DB 수정 실패",error1)
+            }else{
+                res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                res.end(lib.getMsgUrl("수정 완료","/community/detail?community_id="+community_id));
+            }
+            con.end(); // mysql 접속 종료
+        });
+    }
+});
+
+// 삭제
+app.post("/community/delete",upload.single("pic"),function(req,res){
+    var community_id= req.body.community_id;
+    var filename= req.body.filename;
+    if(req.file != undefined){
+        fs.unlink(__dirname+"/static/upload"+filename,function(err){
+            if(err){
+                console.log("접근 실패",err)
+            }else{
+                filename= req.file.fieldname; // 새롭게 수정 된 파일의 이름 부여
+                // mysql 접속
+                var sql= "delete from community set title=?, writer=?, content=?, filename=? where community_id="+community_id;
+                var con= mysql.createConnection(conStr);
+                con.query(sql,[title,writer,content,filename,community_id],function(error,fields){
+                    if(error){
+                        console.log("사진 수정 실패",error);
+                    }else{
+                        res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                        res.end(lib.getMsgUrl("수정 완료","/community/detail?community_id="+community_id));
+                    }
+                    con.end(); // mysql 접속 종료
+                });
+            }
+        });
+        
+    }else{
+        // mysql 접속
+        var sql= "delete from community where community_id="+community_id;
+        var con= mysql.createConnection(conStr);
+        con.query(sql,function(error,fields){
+            if(error){
+                console.log("삭제 실패",error)
+            }else{
+                res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                res.end(lib.getMsgUrl("삭제 완료","/community/list"));
+            }
+            con.end(); // mysql 접속 종료
+        });
+    }
+});
+
+/*-----------------------------------------------------------------------------
+진아씨
+-----------------------------------------------------------------------------*/
 
 
 
