@@ -73,7 +73,6 @@ class Ene extends CharacterObj{
         }else if(this.attack_flag){
             this.box.style.background = "url("+this.attack_src+")";
         }else if(this.castle_attack_flag){
-            console.log("test");
             this.box.style.background = "url("+this.attack_src+")";
         }
         this.box.style.backgroundPosition = this.bkp;

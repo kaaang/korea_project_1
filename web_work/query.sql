@@ -19,6 +19,16 @@ gamedata_id int primary key auto_increment
 ,constraint fk_usergame foreign key (user_list_id)  references user_list(user_list_id)
 )default character set utf8;
 
+drop table game_data;
+
+create table game_data(
+gamedata_id int primary key auto_increment
+,user_id varchar(20)
+,score int
+)default character set utf8;
+
+
+
 create  table community(
     community_id int  primary key auto_increment 
    , title varchar(100)    

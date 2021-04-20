@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('./inc/plugin')%>
+    <title>Ranking</title>
+
+
+<style>
+    .total_table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+        font-size: 20px;
+    }
+
+    .total_td, .total_tr {
+        text-align: left;
+        padding: 16px;
+    }
+
+    .total_tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    #total_ranking{
+        font-weight: bold;
+        text-align: center;
+        width: 50px;
+        color: red;
+    }
+    #total_id{
+        text-align: center;
+        
+
+    }
+</style>
+
+</head>
+<body>
+    <%- include('./inc/header')%>
+
+
+
+
+
+
+<h2>Ranking TOP 10</h2>
+
+<table class="total_table">
+    <tr class="total_tr">
+        <th class="total_td" id="total_ranking">Ranking</th>
+        <th class="total_td" id="total_id">ID</th>
+        <th class="total_td">SCORE</th>
+    </tr>
+    <% for(var i=1;i<=ranking.length;i++){ %>
+        <% if(i==10) break; %> 
+        <tr class="total_tr">
+            <td class="total_td" id="total_ranking"><%= i %> </td>
+            <td class="total_td" id="total_id"><%= ranking[i-1].user_id %> </td>
+            <td class="total_td"><%= ranking[i-1].score %></td>
+        </tr>
+    <% } %>  
+
+
+
+
+
+
+
+
+    
+</table>
+
+
+
+
+
+
+
+
+
+    
+    <%- include('./inc/footer')%>
+</body>
+</html>

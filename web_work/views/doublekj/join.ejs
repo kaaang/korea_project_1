@@ -6,12 +6,12 @@
 <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 <%- include('../inc/plugin')%>
 <style>
-#user_join {font-family: Arial, Helvetica, sans-serif;}
-#user_join {box-sizing: border-box; width: 800px; margin: auto; justify-content: center;
+.loginForm {font-family: Arial, Helvetica, sans-serif;}
+.loginForm {box-sizing: border-box; width: 800px; margin: auto; justify-content: center;
     align-items : center;}
-#user_join * {box-sizing: border-box; width: 800px; margin: auto; justify-content: center;
+.loginForm * {box-sizing: border-box; width: 800px; height: 50px; margin: auto; justify-content: center;
     align-items : center;}
-#user_join input[type=text], #user_join input[type=password]{
+.passForm input[type=text], .passForm input[type=password] {
   width: 80%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -21,37 +21,69 @@
   margin-bottom: 16px;
   resize: vertical;
 }
-#user_join input[type=button] {
-  float: left;
-  background-color: #797bff;
-  color: white;
-  padding: 12px 20px;
-  border: none;
+
+.checkbox_group input[type=checkbox]{
+  width: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  cursor: pointer;
-  width: 150px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  resize: vertical;
+  left: 68%;
+  position: absolute;
 }
-#user_join input[type=button]:hover {
-  background-color: #45a049;
+.checkbox_group label{
+    width: 85%;
+    resize: vertical;
+    padding: 25px;
 }
-.user_container {
-  border-radius: 5px;
-  background-color: rgb(236, 232, 253);
-  padding: 20px;
-  display: inline-block;
+
+.btn{
+   position: relative;
+   left: 50%;
+   transform: translateX(-50%);
+   margin-bottom: 40px;
+   width: 80%;
+   height: 40px;
+   background: linear-gradient(172deg, #ffefa2, #c7b454, #ec81b7);
+   background-position: left;
+   background-size: 200%;
+   color: white;
+   font-weight: bold;
+   border: none;
+   cursor: pointer;
+   transition: 0.4s;
+   display: inline;
+}
+
+.btn2 {
+   position: relative;
+   left: 50%;
+   transform: translateX(-50%);
+   margin-bottom: 40px;
+   width: 80%;
+   height: 40px;
+   background: linear-gradient(172deg, #c5c3c1, #696965, #30292c);
+   background-position: left;
+   background-size: 200%;
+   color: white;
+   font-weight: bold;
+   border: none;
+   cursor: pointer;
+   transition: 0.4s;
+   display: inline;
+}
+
+.btn:hover,.btn2:hover {
+   background-position: right;
+}
+
+.bottomText {
+   text-align: center;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(function(){
@@ -84,67 +116,68 @@ $(function(){
       location.href="/doublekj/main";
     });
 });
-//전화번호 자동으로 하이픈 넣기
+    //전화번호 자동으로 하이픈 넣기
 $(document).on("keyup", ".tel", function() {
-  $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+    $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
 });
-//체크박스
-$(document).ready(function(){
-        $('.check-all').click(function(){
-          $('.ab').prop('checked', this.checked);
-        });
-      });
+// 체크박스 전체 선택
+$(function(){
+    $("#check_all").click(function(){
+        if($("#check_all").prop("checked")) {
+            $("input[type=checkbox]").prop("checked",true);
+        } else {
+            $("input[type=checkbox]").prop("checked",false);
+        }
+    });
+});
 </script>
 </head>
-
-
-
-
 
 <body>
   <%- include('../inc/header')%>
 
+  <form class="loginForm">
+    <h2 style="font-size:30px; text-align: center; margin-top: 20px; color: antiquewhite; font-family:바탕체;">회원가입</h2>
+    <div class="passForm">
+        <input type="text" id="user_id" name="user_id" placeholder="Username">
+    </div>
+    <div class="passForm">
+        <input type="password" id="user_pass" name="user_pass" placeholder="Password">
+    </div>
+    <div class="passForm">
+        <input type="password" id="user_pass2" name="user_pass2" placeholder="Password">
+    </div>
+    <div class="passForm">
+        <input type="text" id="user_name" name="user_name" placeholder="Name">
+    </div>
+    <div class="passForm">
+        <input type="text" class="tel" id="user_phone" name="user_phone" placeholder="000-0000-0000" maxlength="13">
+    </div>
+    <div class="passForm">
+        <input type="text" id="user_email" name="user_email" placeholder="Email">
+    </div>
+    <div class="checkbox_group">
 
-
-<div id="user_join">
-  <h2 align="center" style="font-size: 30px; font-family:궁서체; margin-top: 20px;">오라오라 이리오라</h2>
-  <br><div class="user_container">
-    <form>
-      <label for="user_id">ID</label><br>
-      <input type="text" id="user_id" name="user_id" placeholder="아이디 입력"><br>
-  
-      <label for="user_pass">비밀번호</label><br>
-      <input type="password" id="user_pass" name="user_pass" placeholder="비밀번호 입력"><br>
-  
-      <label for="user_pass2">비밀번호 확인</label><br>
-      <input type="password" id="user_pass2" name="user_pass2" placeholder="비밀번호 확인"><br>
-  
-      <label for="user_name">이름</label><br>
-      <input type="text" id="user_name" name="user_name" placeholder="이름 입력"><br>
-  
-      <label for="user_phone">전화번호</label><br>
-      <input type="text" class="tel" id="user_phone" name="user_phone" placeholder="010-0000-0000" maxlength="13"><br>
-  
-      <label for="user_email">이메일</label><br>
-      <input type="text" id="user_email" name="user_email" placeholder="이메일 입력"><br>
-            
-      <p><input type="checkbox" name="check_all" class="check-all"> <label>전체 동의</label></p>
-      <hr align="left" style="width: 80%;">
-      <p><input type="checkbox" name="check_1" class="ab"> <label>개인정보 처리방침 동의</label></p>
-      <p><input type="checkbox" name="check_2" class="ab"> <label>서비스 이용약관 동의</label></p>
-      <p><input type="checkbox" name="check_3" class="ab"> <label>마케팅 수신 동의</label></p>
-      
-      <br>
-      <input type="button" value="회원가입">
-      <input type="button" value="다음에 가입할게요!">
-    </form>
-  </div>
-</div>
-
-
-
-
-
+        <input type="checkbox" id="check_all" >
+        <label for="check_all">전체 동의</label>
+        
+        <input type="checkbox" id="check_1" class="normal" >
+        <label for="check_1">개인정보 처리방침 동의</label>
+        
+        <input type="checkbox" id="check_2" class="normal" >
+        <label for="check_2">서비스 이용약관 동의</label>
+        
+        <input type="checkbox" id="check_3" class="normal" >
+        <label for="check_3">마케팅 수신 동의</label>
+        
+      </div><br>
+      <br><br><br><br><br><br><br>
+        <input type="button" class="btn" value="회원가입">
+        <input type="button" class="btn2" value="다음에 가입할게요">
+    <div class="bottomText">
+        이미 회원가입이 되셨나요? <a href="/doublekj/loginForm">Login</a>
+    </div>
+</form>
 
 <%- include('../inc/footer')%>
 </body>
