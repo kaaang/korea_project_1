@@ -38,3 +38,14 @@ create  table community(
    , hit int default 0 
    , filename varchar(30)
 ) default  character set  utf8;
+
+
+create table customer(
+    customer_key int  primary key auto_increment,
+    customer_id varchar(20),
+    title varchar(100),
+    content text,
+    regdate timestamp default now(),
+    hit int default 0
+
+)default character set utf8;

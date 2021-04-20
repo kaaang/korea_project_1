@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<%- include('../inc/plugin')%>
+<style>
+#wrapper{
+    width:600px;
+    margin: auto;
+}
+#title{
+    text-align:center;
+    margin:auto;
+    font-weight:bold;
+}
+  
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script>
+    $(function(){ //onLoad되면....
+  //편집기 입히기!!
+  CKEDITOR.replace("content");
+  $($("input[type=button]")[0]).click(function(){
+        regist();
+       
+    });
+      
+   
+    $($("input[type=button]")[1]).click(function(){
+        cancel();
+    });
+
+
+});
+    function regist(){
+        $("form").attr("action","/customer/registsubmit"); 
+        $("form").attr("method","post");
+        $("form").submit();
+    }
+    function cancel(){
+        location.href="/customer/home";
+    }
+
+</script>
+</head>
+<body>
+    <%- include('../inc/header')%>
+    <div id="wrapper">
+        <div id="title">고객센터</div>
+        <form id="form1">
+            <table width="100%" border="3px solid black">
+                <tr>
+                    <td>
+                        <input type="text" name="customer_id" value="<%=result.user_id%>" id="customer_id">
+                    </td>                
+                </tr>                                        
+                <tr>  
+                    <td>
+                        <input type="text" name="title" id="title" value="  "  >
+                    </td>                 
+                </tr>
+                   <tr>
+                       <td>
+                           <textarea name="content" > </textarea>
+                        </td>   
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                         </td>   
+                     </tr>
+                    <tr>
+                    <td>
+                        <!-- html5 버튼은 디폴트가 submit 속성을 보유 -->
+                        <input type="button"  value="등록"></button>
+                        <input type="button"  value="취소"></button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>    
+    <%- include('../inc/footer')%>
+</body>
+</html>

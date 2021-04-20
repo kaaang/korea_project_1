@@ -40,6 +40,7 @@ const conStr={
 
 
 var expressSession=require("express-session"); //서버측의 세션을 관리하는 모듈
+const { stringify } = require("qs");
 //세션 설정   -> use : 미들웨어
 app.use(expressSession({
     secret:"key secret",
@@ -158,7 +159,31 @@ app.post("/doublekj/join", function(request, response){
     });
 });
 
+///중복 체크 
+app.get("/doublekj/logincheck", function(request, response){
+    var user_id=request.query.user_id;
+    console.log(user_id);
 
+    // var sql=""select * from user_list where user_id='"+user_id+"'"";
+    var sql="select * from user_list where user_id=";
+    sql+="'"+user_id+"'";
+    // console.log(sql);
+    var con=mysql.createConnection(conStr);
+    con.query(sql, function(err, result, fields){
+        if(err){
+            console.log("중복 체크 오류 : ", err);
+        }else{
+
+            if(result.length==0 ){
+                var re = "no";
+            }else{
+                var re = result[0].user_id;
+            }
+            response.end(re);
+        }
+        con.end();
+    });
+});
 
 
 //로그인 폼 요청
@@ -209,9 +234,6 @@ app.post("/doublekj/login", function(request, response){
 /*-----------------------------------------------------------------------------
 진아씨
 -----------------------------------------------------------------------------*/
-/*-----------------------------------------------------------------------------
-진아씨
------------------------------------------------------------------------------*/
 
 // --------------------------게시글 등록----------------------------------------
 
@@ -230,7 +252,7 @@ app. get("/community/list",function(req,res){
         if(err){
             console.log("리스트를 불러오지 못했습니다.",err);
         }else{
-            res.render("community/list",{
+            res.render("community/list2",{
                 param:{
                     communityList:result,
                     currentPage:currentPage,
@@ -242,6 +264,38 @@ app. get("/community/list",function(req,res){
     });
     
 });
+
+
+// 검색
+app.get("/community/search",function(req,res){
+    var currentPage= 1;
+    if(req.query.currentPage!=undefined){
+       currentPage =req.query.currentPage;
+    }
+    var search= req.query.search;
+    // mysql 접속
+    var con= mysql.createConnection(conStr);
+    var sql= "select * from community where title like '%"+search+"%'";
+    con.query(sql,function(err,result,fileds){
+        if(err){
+            console.log("검색 쿼리문 수행 실패",err);
+        }else{
+            // console.log("******************************************************",result);
+            // res.render("community/list2",{
+            //     param:{
+            //         communityList:result,
+            //         currentPage:currentPage,
+            //         lib:lib
+            //     }
+            // });
+            var submit = JSON.stringify(result);
+            // console.log(submit);
+            res.end(submit);
+        }
+    });
+});
+
+
 
 
 // 글 등록
@@ -439,13 +493,6 @@ app.post("/community/delete",upload.single("pic"),function(req,res){
 });
 // --------------------------댓글 등록-----------------------------------------
 
-/*-----------------------------------------------------------------------------
-진아씨
------------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------
-진아씨
------------------------------------------------------------------------------*/
 
 
 
@@ -454,12 +501,126 @@ app.post("/community/delete",upload.single("pic"),function(req,res){
 -----------------------------------------------------------------------------*/
 
 
-/*-----------------------------------------------------------------------------
-주윤씨
------------------------------------------------------------------------------*/
+app.get("/customer/home",function(request, response){
+    if(request.session.user_list==undefined){
+         response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+         response.end(lib.getMsgBack("로그인이 필요합니다.."));
+    }else{
+        var con = mysql.createConnection(conStr);
+        
+        con.query("select * from customer ", function(error, result, fields){
+            if(error){
+                console.log("에러1",error);
+            }else{
+                response.render("customer/home",{
+                    customerList:result,
+                    lib:lib,
+                    user_id:request.session.user_list
+                });
+            }
+            con.end();//mysql 접속 끊기
+        });
+    }
+
+ });
+
+
+//지정한 url의 post 방식으로 클라이언트의 요청을 받음
+app.get("/customer/regist", function(request ,response){
+    if(request.session.user_list==undefined){
+        response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+        response.end(lib.getMsgBack("로그인 필요한 페이지입니다."));
+    }else{
+        // console.log(request.session.user_list);
+        response.render("customer/detail",{
+            result:request.session.user_list
+        });
+    // console.log(request.body);
+    // var customer_id=request.body.customer_id;
+    // var title=request.body.title;
+    // var content=request.body.content;
+
+    // //2) mysql 접속 후  connection객체 반환
+    // var con=mysql.createConnection(conStr);
+    // var sql="insert into customer(customer_id, title, content) values(?,?,?)";
+
+    // con.query(sql, [customer_id,  title, content], function(err, fields){
+    //     if(err){
+    //         console.log("에러2",err);
+    //     }else{
+    //         response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+    //         response.end(lib.getMsgUrl("등록 완료","/customer/home"));
+    //     }
+    //     con.end();//mysql 접속 끊기
+    // });
+    }
+
+  
+});
+app.post("/customer/registsubmit", function(request ,response){
+
+    // if(request.session.user_list==undefined){
+    //     response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+    //     response.end(lib.getMsgBack("로그인 필요한 페이지입니다."));
+    // }else{
+    //     console.log(request.session.user_list);
+    //     response.render("customer/detail",{
+    //         result:request.session.user_list
+    //     });
+    // console.log(request.body);
+    // response.end();
+    // }
+    var customer_id=request.body.customer_id;
+    var title=request.body.title;
+    var content=request.body.content;
+
+    // //2) mysql 접속 후  connection객체 반환
+    var con=mysql.createConnection(conStr);
+    var sql="insert into customer(customer_id, title, content) values(?,?,?)";
+
+    con.query(sql, [customer_id,  title, content], function(err, fields){
+        if(err){
+            console.log("에러2",err);
+        }else{
+            response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+            response.end(lib.getMsgUrl("등록 완료","/customer/home"));
+        }
+        con.end();//mysql 접속 끊기
+    });
+
+  
+});
 
 
 
+//목록
+app.get("/customer/detail", function(request, response){
+    var customer_key=request.query.customer_key;
+    
+    var sql="select * from customer where customer_key=?";
+
+    var con=mysql.createConnection(conStr);//접속
+    con.query(sql, [customer_key] , function(err, result, fields){
+        if(err){
+            console.log("에러3",err);
+        }else{
+            
+            con.query("update customer set hit=hit+1 where customer_key=?",[customer_key], function(error2, fields){
+                if(error2){
+                    console.log(error2);                        
+                }else{
+                   
+                    response.render("customer/detailcheck",{
+                        record:result[0],
+                        content: (result[0].content),
+                        result:request.session.user_list
+                    });                       
+                }
+                con.end(); //mysql 접속 끊기
+            });
+        }
+    });
+});
 
 
 
