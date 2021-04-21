@@ -40,6 +40,19 @@ create  table community(
 ) default  character set  utf8;
 
 
+create  table comments(
+    comments_id int  primary key auto_increment 
+    , community_id int
+   , post_id varchar(20)   
+   , author varchar(20)
+   , msg text 
+   , regi_date  timestamp  default now()
+   ,constraint fk_coco foreign key (community_id)  references community(community_id)
+) default  character set  utf8;
+
+
+
+
 create table customer(
     customer_key int  primary key auto_increment,
     customer_id varchar(20),
@@ -49,3 +62,5 @@ create table customer(
     hit int default 0
 
 )default character set utf8;
+
+

@@ -66,7 +66,39 @@ app.use(expressSession({
 
 
 app.get("/doublekj/main",function(request, response){
-    response.render("index");
+    var con=mysql.createConnection(conStr);
+    var sql="select * from community order by community_id desc";
+    con.query(sql,function(error,result,fields){
+        if(error){
+            console.log("홈페이지 메인 조회중 오류 : ",error);
+        }else{
+            // console.log( JSON.stringify(result[0].content));
+            var sql="select * from customer order by customer_key desc";
+            con.query(sql,function(error,result_1,fields){
+                if(error){
+                    console.log("홈페이지 메인 2 오류",error);
+                }else{
+                    console.log(result);
+                    response.render("index",{
+                        result:result,
+                        result_1:result_1
+                    });
+                }
+            });
+
+
+
+
+
+
+
+
+            // response.render("index",{
+            //     result:result,
+            // });
+        }
+        con.end();
+    });
 });
 
 app.get("/doublekj/game",function(request, response){
@@ -78,6 +110,21 @@ app.get("/doublekj/game",function(request, response){
         response.render("game/game",{
             result : request.session.user_list
         });
+    }
+
+});
+
+
+app.get("/doublekj/logout",function(request, response){
+    if(request.session.user_list==undefined){
+        response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+        response.end(lib.getMsgBack("로그인상태가 아닙니다.."));
+    }else{
+        request.session.destroy(function(){
+            request.session;
+        })
+        response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+        response.end(lib.getMsgUrl("로그아웃성공","/doublekj/main"));
     }
 
 });
@@ -308,6 +355,7 @@ app.post("/community/write",upload.single("pic"),function(req,res){
         var title=req.body.title;
         var writer=req.body.writer;
         var content=req.body.content;
+        console.log(content);
         var filename=req.body.filename; // multer 이용하여 기존 req객체에 추가된 것 
 
         if(req.file != undefined){

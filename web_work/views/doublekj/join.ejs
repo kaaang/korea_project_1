@@ -102,48 +102,6 @@ $(function(){
             success:function(result, status,xhr){
                 if(result=="no"){
                     
-                    $($("input[type=button]")[0]).click(function(){
-                        //아이디 비어있음 체크
-                        if($("#user_id").val()==""){
-                            alert("아이디를 입력해주세요");
-                            return;
-                        }
-                        
-                        //비밀번호 비어있음 체크
-                        if($("#user_pass").val()==""){
-                            alert("비밀번호를 입력해주세요");
-                            return;
-                        }
-                        if($("#user_pass2").val() != $("#user_pass").val()){
-                            alert("비밀번호가 다릅니다");
-                            return;
-                        }
-                        //이름 비어있음 체크
-                        if($("#user_name").val()==""){
-                            alert("이름을 입력해주세요");
-                            return;
-                        }
-                
-                        //전체동의 해야지만 가입가능
-                        var f = document.querySelector(".loginForm");
-                        
-                        var count=0;
-                        for(var i=0;i<f.ch.length;i++ ){
-                            if(f.ch[i].checked){
-                                count++;
-                            }
-                        }
-                        if(count<f.ch.length){
-                            alert("모두 체크해야 합니다.");
-                            return;
-                        }
-                
-                        $("form").attr("action","/doublekj/join");
-                        $("form").attr("method","post");
-                        $("form").submit();
-                    });
-
-
                 }else{
                     alert("아이디가 중복됩니다.");
                     $("#user_id").val("");
@@ -153,25 +111,44 @@ $(function(){
             }
         });
     });
+    $($("input[type=button]")[0]).click(function(){
+        //아이디 비어있음 체크
+        if($("#user_id").val()==""){
+            alert("아이디를 입력해주세요");
+            return;
+        }
+        //비밀번호 비어있음 체크
+        if($("#user_pass").val()==""){
+            alert("비밀번호를 입력해주세요");
+            return;
+        }
+        if($("#user_pass2").val() != $("#user_pass").val()){
+            alert("비밀번호가 다릅니다");
+            return;
+        }
+        //이름 비어있음 체크
+        if($("#user_name").val()==""){
+            alert("이름을 입력해주세요");
+            return;
+        }              
+        //전체동의 해야지만 가입가능
+        var f = document.querySelector(".loginForm");
+        var count=0;
+        for(var i=0;i<f.ch.length;i++ ){
+            if(f.ch[i].checked){
+                count++;
+            }
+        }
+        if(count<f.ch.length){
+            alert("모두 체크해야 합니다.");
+            return;
+        }
 
-
-
+        $("form").attr("action","/doublekj/join");
+        $("form").attr("method","post");
+        $("form").submit();
+    });
 });
-
-// function duplicateCheck(){
-//     alert($("#user_id").val());
-    
-//     $.ajax({
-//             url:"/doublekj/logincheck",
-//             type:"POST",
-//             data:{
-//             user_id:$("#user_id").val()  
-//             },
-//             success:function(result, status, xhr){
-//                 alert(result);
-//             }
-//         });    
-// }
 
 //두번째 버튼을 누르면 홈페이지로 다시 돌아가기
 $($("input[type=button]")[1]).click(function(){
@@ -191,10 +168,8 @@ $(function(){
         }
     }); 
 });
-
 </script>
 </head>
-
 <body>
   <%- include('../inc/header')%>
 
