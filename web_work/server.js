@@ -72,13 +72,11 @@ app.get("/doublekj/main",function(request, response){
         if(error){
             console.log("홈페이지 메인 조회중 오류 : ",error);
         }else{
-            // console.log( JSON.stringify(result[0].content));
             var sql="select * from customer order by customer_key desc";
             con.query(sql,function(error,result_1,fields){
                 if(error){
                     console.log("홈페이지 메인 2 오류",error);
                 }else{
-                    console.log(result);
                     response.render("index",{
                         result:result,
                         result_1:result_1
@@ -86,16 +84,6 @@ app.get("/doublekj/main",function(request, response){
                 }
             });
 
-
-
-
-
-
-
-
-            // response.render("index",{
-            //     result:result,
-            // });
         }
         con.end();
     });
@@ -279,12 +267,10 @@ app.post("/doublekj/login", function(request, response){
 
 
 /*-----------------------------------------------------------------------------
-진아씨
+                                진아씨
 -----------------------------------------------------------------------------*/
-
 // --------------------------게시글 등록----------------------------------------
 
-// --------------------------게시글 등록----------------------------------------
 // 목록
 app. get("/community/list",function(req,res){
     // 페이징
@@ -299,7 +285,7 @@ app. get("/community/list",function(req,res){
         if(err){
             console.log("리스트를 불러오지 못했습니다.",err);
         }else{
-            res.render("community/list2",{
+            res.render("community/list",{
                 param:{
                     communityList:result,
                     currentPage:currentPage,
@@ -307,11 +293,10 @@ app. get("/community/list",function(req,res){
                 }
             });
         }
-        con.end();
+        con.end(); // mysql 접속 종료
     });
     
 });
-
 
 // 검색
 app.get("/community/search",function(req,res){
@@ -327,23 +312,12 @@ app.get("/community/search",function(req,res){
         if(err){
             console.log("검색 쿼리문 수행 실패",err);
         }else{
-            // console.log("******************************************************",result);
-            // res.render("community/list2",{
-            //     param:{
-            //         communityList:result,
-            //         currentPage:currentPage,
-            //         lib:lib
-            //     }
-            // });
             var submit = JSON.stringify(result);
-            // console.log(submit);
             res.end(submit);
         }
+        con.end(); // mysql 접속 종료
     });
 });
-
-
-
 
 // 글 등록
 app.post("/community/write",upload.single("pic"),function(req,res){
@@ -355,7 +329,6 @@ app.post("/community/write",upload.single("pic"),function(req,res){
         var title=req.body.title;
         var writer=req.body.writer;
         var content=req.body.content;
-        console.log(content);
         var filename=req.body.filename; // multer 이용하여 기존 req객체에 추가된 것 
 
         if(req.file != undefined){
@@ -404,8 +377,19 @@ app.get("/community/detail",function(req,res){
                 if(error){
                     console.log("조회수 쿼리문 실패",error);
                 }else{
-                    res.render("community/detail",{
-                        community:result[0]
+                    // 댓글도 같이 뜨게 처리
+                    sql= "select * from comments where community_id=?";
+                    con.query(sql,[community_id],function(error,result1,fileds){
+                        if(error){
+                            console.log("상세보기 내 댓글 불러오는 쿼리문 실패",error);
+                        }else{
+                            res.render("community/detail",{
+                                community:result[0],
+                                commentsList:result1,
+                                lib:lib
+                            });
+
+                        }
                     });
                 }
                 con.end(); // mysql 접속 종료
@@ -539,7 +523,57 @@ app.post("/community/delete",upload.single("pic"),function(req,res){
         }
     }
 });
+
 // --------------------------댓글 등록-----------------------------------------
+app.post("/comments/regi",function(req,res){
+    var community_id= req.body.community_id;
+    var msg= req.body.msg;
+    var author= req.body.author;
+
+    var con= mysql.createConnection(conStr);
+    var sql= "insert into comments(community_id,author,msg) values(?,?,?)";
+    con.query(sql,[community_id,author,msg],function(err,result,fields){
+        if(err){
+            console.log("댓글 등록 쿼리문 실패",err);
+            res.writeHead(200,{"Content-Type":"text/json;charset=utf-8"});
+            var str="";
+            str+="{";
+            str+= "\"result\":0";
+            str+= "}";
+            res.end(str); 
+        }else{
+            res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+            var str="";
+            str+="{";
+            str+= "\"result\":1";
+            str+= "}";
+            res.end(str);
+        }
+        con.end(); // mysql 접속 종료
+    });
+});
+// 코멘트 목록가져오기
+app.get("/comments/list",function(req,res){
+    var con= mysql.createConnection(conStr);
+    var community_id= req.query.community_id;
+    var sql= "select * from comments where community_id="+community_id;
+    con.query(sql,function(err,result,fields){
+        if(err){
+            console.log("sql문 작동 중 실패",err);
+        }else{
+            var com= JSON.stringify(result);
+            console.log("잘 반영됐다.",result);
+            res.writeHead(200,{"Content-Type":"text/json;charset=utf-8"});
+            res.end(com);
+        }
+        con.end(); // mysql 접속 종료
+    });
+        
+    
+});
+/*-----------------------------------------------------------------------------
+                                진아씨
+-----------------------------------------------------------------------------*/
 
 
 

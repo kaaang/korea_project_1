@@ -42,8 +42,7 @@ create  table community(
 
 create  table comments(
     comments_id int  primary key auto_increment 
-    , community_id int
-   , post_id varchar(20)   
+    , community_id int  
    , author varchar(20)
    , msg text 
    , regi_date  timestamp  default now()

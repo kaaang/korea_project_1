@@ -53,10 +53,57 @@
 }
 </style>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  window.addEventListener("load",function(){
-    console.log(param);
-  });
+  function searchList(){
+    $.ajax({
+      url:"/community/search?search="+$("input[name='search']").val(),
+      type:"GET",
+      success:function(result, status, xhr){
+        // console.log(param);
+        // var json=JSON.parse(result)
+        // console.log(json[0]);
+        printData(result);
+      },
+      error:function(xhr,status,error){
+      }
+    });
+  }
+  function printData(data){
+    var json = JSON.parse(data); //string --> json 으로 변환 
+    var jsonArray=json.length;
+    console.log(jsonArray);
+    console.log(json);
+
+    var tag="<table border='1px' width='100%'>";
+    tag+="<tr>";
+    tag+="<td>No</td>";
+    tag+="<td>이미지</td>";
+    tag+="<td>제목</td>";
+    tag+="<td>작성자</td>";
+    tag+="<td>등록일</td>";
+    tag+="<td>조회수</td>";
+    tag+="</tr>";
+
+    for(var i=0;i<jsonArray;i++){
+      var search = json[i]; 
+      tag+="<tr>";
+      tag+="<td>"+search.community_id+"</td>";
+      // tag+="<td>"+search.filename+"</td>";
+      tag+="<td><img src='/upload/"+search.filename+"' id='pic' alt=''></td>";
+      tag+="<td>"+search.title+"</td>";
+      tag+="<td>"+search.writer+"</td>";
+      tag+="<td>"+search.regdate+"</td>";
+      tag+="<td>"+search.hit+"</td>";
+      tag+="</tr>";         
+      console.log("Test");           
+    }
+    tag+="</table>";
+    
+    $("#contentTable").html();//기존 내용지우고, 
+    $("#contentTable").html(tag);
+  }
+
 </script>
 <body>
 <%- include('../inc/header')%>
@@ -64,7 +111,7 @@
 
 
   <h2>Community</h2>
-  <table>
+  <table id="contentTable">
     <tr>
       <th>No</th>
       <th>이미지</th>
@@ -73,7 +120,10 @@
       <th>등록일</th>
       <th>조회수</th>
     </tr>
-    
+    <div style="height:50px;">
+      <input type="text" name="search" placeholder="검색어 입력...">
+      <button onclick="searchList()">검색</button>
+    </div>
     <%for(var i=1; i<=pageSize; i++){%>
       <%if(num<1) break;%>
     
