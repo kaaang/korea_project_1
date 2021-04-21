@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">    
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<%- include('../inc/plugin')%>
 <style>
 table {
   border-collapse: collapse;
@@ -20,11 +21,14 @@ tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 </style>
+
+ 
 </head>
 <body>
+  <%- include('../inc/header')%>
 
 <h2>게시물 수는 <%=customerList.length%></h2>
-<p>For zebra-striped tables, use the nth-child() selector and add a background-color to all even (or odd) table rows:</p>
+
 
 <table>
   <tr>
@@ -51,6 +55,9 @@ tr:nth-child(even) {
     </td>
     <td><%=customer.hit%></td>
   </tr>
+  <tr>
+    
+  </tr>
  <%}%>
  <tr>
    <td colspan="5">
@@ -58,5 +65,6 @@ tr:nth-child(even) {
    </td>
  </tr>
 </table>
+<%- include('../inc/footer')%>
 </body>
 </html>

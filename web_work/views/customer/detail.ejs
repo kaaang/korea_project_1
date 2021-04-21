@@ -16,6 +16,10 @@
     margin:auto;
     font-weight:bold;
 }
+textarea{
+    width:593px;
+    height:100%;
+}
   
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -35,16 +39,18 @@
     });
 
 
+
 });
     function regist(){
         $("form").attr("action","/customer/registsubmit"); 
         $("form").attr("method","post");
         $("form").submit();
     }
+ 
     function cancel(){
         location.href="/customer/home";
     }
-
+ 
 </script>
 </head>
 <body>
@@ -76,12 +82,26 @@
                     <tr>
                     <td>
                         <!-- html5 버튼은 디폴트가 submit 속성을 보유 -->
-                        <input type="button"  value="등록"></button>
-                        <input type="button"  value="취소"></button>
+                        <input type="button"  value="등록 : 작성하신 문의사항은 이메일로 답변해드립니다.">
+                        
+                        <input type="button"  value="취소">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        
                     </td>
                 </tr>
             </table>
         </form>
+        <!--<div >
+            <textarea name="comment" placeholder="답글입력.." ></textarea>
+        </div>
+        <div>
+            <input type="button" value="답글 등록"></button> 
+            <input type="button"  value="돌아가기"></button>    
+            
+        </div>-->
     </div>    
     <%- include('../inc/footer')%>
 </body>

@@ -120,28 +120,28 @@
 
 
       
-        
-        <li class="one_half first">
-          <blockquote><%= (result_1[0].content).replace(/(<([^>]+)>)/gi, "")%></blockquote>
+      <li class="one_half first">
+        <blockquote><%= (result_1[0].content).replace(/(<([^>]+)>)/gi, "")%></blockquote>
+        <figure class="clear"><img class="circle" src="/images/demo/60x60.png" alt="">
+          <figcaption>
+            <h6 class="heading"><%= result_1[0].customer_id %></h6>
+            <em><%= result_1[0].regdate %></em></figcaption>
+        </figure>
+      </li>
+      
+      <% if(result_1.length>=2){ %> 
+
+        <li class="one_half">
+          <blockquote><%= (result_1[1].content).replace(/(<([^>]+)>)/gi, "")%></blockquote>
           <figure class="clear"><img class="circle" src="/images/demo/60x60.png" alt="">
             <figcaption>
-              <h6 class="heading"><%= result_1[0].customer_id %></h6>
-              <em><%= result_1[0].regdate %></em></figcaption>
+              <h6 class="heading"><%= result_1[1].customer_id %></h6>
+              <em><%= result_1[1].regdate %></em></figcaption>
           </figure>
         </li>
-        
-        <% if(result_1.length>=1){ %> 
 
-          <li class="one_half">
-            <blockquote><%= (result_1[1].content).replace(/(<([^>]+)>)/gi, "")%></blockquote>
-            <figure class="clear"><img class="circle" src="/images/demo/60x60.png" alt="">
-              <figcaption>
-                <h6 class="heading"><%= result_1[1].customer_id %></h6>
-                <em><%= result_1[1].regdate %></em></figcaption>
-            </figure>
-          </li>
-
-        <% } %> 
+      <% } %> 
+       
         
         
         

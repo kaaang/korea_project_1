@@ -16,6 +16,10 @@
     margin:auto;
     font-weight:bold;
 }
+textarea{
+    width:593px;
+    height:100%;
+}
   
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -24,6 +28,7 @@
     $(function(){ //onLoad되면....
   //편집기 입히기!!
   CKEDITOR.replace("content");
+  
   $($("input[type=button]")[0]).click(function(){
         regist();
        
@@ -35,15 +40,15 @@
     });
 
 
+
 });
     function regist(){
         $("form").attr("action","/customer/registsubmit"); 
         $("form").attr("method","post");
         $("form").submit();
     }
-    function cancel(){
-        location.href="/customer/home";
-    }
+   
+  
 
 </script>
 </head>
@@ -76,12 +81,13 @@
                     <tr>
                     <td>
                         <!-- html5 버튼은 디폴트가 submit 속성을 보유 -->
-                        <input type="button"  value="등록"></button>
-                        <input type="button"  value="취소"></button>
+                        
+                    
                     </td>
                 </tr>
             </table>
         </form>
+     
     </div>    
     <%- include('../inc/footer')%>
 </body>

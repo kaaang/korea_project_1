@@ -582,7 +582,6 @@ app.get("/comments/list",function(req,res){
 주윤씨
 -----------------------------------------------------------------------------*/
 
-
 app.get("/customer/home",function(request, response){
     if(request.session.user_list==undefined){
          response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
@@ -590,7 +589,7 @@ app.get("/customer/home",function(request, response){
     }else{
         var con = mysql.createConnection(conStr);
         
-        con.query("select * from customer ", function(error, result, fields){
+        con.query("select * from customer  ", function(error, result, fields){
             if(error){
                 console.log("에러1",error);
             }else{
@@ -607,7 +606,8 @@ app.get("/customer/home",function(request, response){
  });
 
 
-//지정한 url의 post 방식으로 클라이언트의 요청을 받음
+//문의페이지
+
 app.get("/customer/regist", function(request ,response){
     if(request.session.user_list==undefined){
         response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
@@ -617,44 +617,19 @@ app.get("/customer/regist", function(request ,response){
         response.render("customer/detail",{
             result:request.session.user_list
         });
-    // console.log(request.body);
-    // var customer_id=request.body.customer_id;
-    // var title=request.body.title;
-    // var content=request.body.content;
-
-    // //2) mysql 접속 후  connection객체 반환
-    // var con=mysql.createConnection(conStr);
-    // var sql="insert into customer(customer_id, title, content) values(?,?,?)";
-
-    // con.query(sql, [customer_id,  title, content], function(err, fields){
-    //     if(err){
-    //         console.log("에러2",err);
-    //     }else{
-    //         response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
-    //         response.end(lib.getMsgUrl("등록 완료","/customer/home"));
-    //     }
-    //     con.end();//mysql 접속 끊기
-    // });
     }
-
-  
 });
+
+
+
+//등록 시 저장
 app.post("/customer/registsubmit", function(request ,response){
 
-    // if(request.session.user_list==undefined){
-    //     response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
-    //     response.end(lib.getMsgBack("로그인 필요한 페이지입니다."));
-    // }else{
-    //     console.log(request.session.user_list);
-    //     response.render("customer/detail",{
-    //         result:request.session.user_list
-    //     });
-    // console.log(request.body);
-    // response.end();
-    // }
+    
     var customer_id=request.body.customer_id;
     var title=request.body.title;
     var content=request.body.content;
+    
 
     // //2) mysql 접속 후  connection객체 반환
     var con=mysql.createConnection(conStr);
@@ -669,13 +644,13 @@ app.post("/customer/registsubmit", function(request ,response){
         }
         con.end();//mysql 접속 끊기
     });
-
-  
 });
 
 
 
-//목록
+
+
+//title 누르면 문의내용 출력
 app.get("/customer/detail", function(request, response){
     var customer_key=request.query.customer_key;
     
@@ -695,7 +670,8 @@ app.get("/customer/detail", function(request, response){
                     response.render("customer/detailcheck",{
                         record:result[0],
                         content: (result[0].content),
-                        result:request.session.user_list
+                        result:request.session.user_list,
+                        comment:(result[0]).comment
                     });                       
                 }
                 con.end(); //mysql 접속 끊기
@@ -703,6 +679,10 @@ app.get("/customer/detail", function(request, response){
         }
     });
 });
+
+
+
+
 
 
 

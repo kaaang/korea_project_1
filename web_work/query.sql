@@ -51,7 +51,6 @@ create  table comments(
 
 
 
-
 create table customer(
     customer_key int  primary key auto_increment,
     customer_id varchar(20),
