@@ -499,14 +499,21 @@ app.post("/community/delete",upload.single("pic"),function(req,res){
             
         }else{
             // mysql 접속
-            var sql= "delete from community where community_id="+community_id;
+            var sql= "delete from comments where community_id="+community_id;
             var con= mysql.createConnection(conStr);
             con.query(sql,function(error,fields){
                 if(error){
                     console.log("삭제 실패",error)
                 }else{
-                    res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
-                    res.end(lib.getMsgUrl("삭제 완료","/community/list"));
+                    sql= "delete from community where community_id="+community_id;
+                    con.query(sql,function(err0r,fileds){
+                        if(err0r){
+                            console.log("게시글과 댓글삭제 실패",err0r);
+                        }else{
+                            res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+                            res.end(lib.getMsgUrl("삭제 완료","/community/list"));
+                        }
+                    });
                 }
                 con.end(); // mysql 접속 종료
             });
