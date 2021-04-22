@@ -62,21 +62,22 @@
 <script>
     // on load시 버튼, 이미지, 편집기 셋팅
     $(function(){ 
+
         getCommnetsList();
         // 편집기 입히기
         CKEDITOR.replace('content');
 
-        $($("input[type='button']")[0]).click(function(){
-            writeUpload();
-        });
+        // $($("input[type='button']")[0]).click(function(){
+        //     writeUpload();
+        // });
 
-        $($("input[type='button']")[1]).click(function(){
+        $($("input[type='button']")[0]).click(function(){
             list();
         });
-        $($("input[type='button']")[2]).click(function(){
+        $($("input[type='button']")[1]).click(function(){
             edit();
         });
-        $($("input[type='button']")[3]).click(function(){
+        $($("input[type='button']")[2]).click(function(){
             delet();
         });
 
@@ -192,10 +193,12 @@
                 <p></p>
                 <!-- input type="submit"은 디폴트로 전송 기능이 포함. 클릭만으로도 전송발생
                 무조건 전송되므로 일반 버튼화 시키기.-->
-                <input type="button" value="등록">
+                <!-- <input type="button" value="등록"> -->
                 <input type="button" value="목록">
-                <input type="button" value="수정">
-                <input type="button" value="삭제">
+                <% if(id_check1 == id_check2){ %> 
+                <input type="button"  id="check_1" value="수정">
+                <input type="button" id="check_2" value="삭제">
+                <% } %> 
             </form>
         </div>
 

@@ -39,27 +39,13 @@ const conStr={
 
 
 
-var expressSession=require("express-session"); //서버측의 세션을 관리하는 모듈
+var expressSession=require("express-session"); 
 const { stringify } = require("qs");
-//세션 설정   -> use : 미들웨어
 app.use(expressSession({
     secret:"key secret",
     resave:true,
     saveUninitialized:true
 }));
-
-
-
-// 세션 체크하는법
-// app.get("주소",function(request, response){
-//     if(request.session.user_list==undefined){
-//         response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
-//         response.end(lib.getMsgBack("로그인이 필요합니다.."));
-//     }else{
-        
-//     }
-
-// });
 
 
 
@@ -121,10 +107,8 @@ app.get("/doublekj/logout",function(request, response){
 
 
 app.post("/doublekj/gameset",function(request, response){
-    // console.log(request.body.send_score);
     var score = request.body.send_score;
     var id = request.session.user_list.user_id;
-    // console.log(id, score)
 
     var sql="insert into game_data(user_id, score) values(?,?)";
     var con=mysql.createConnection(conStr);
@@ -167,13 +151,11 @@ app.get("/doublekj/ranking",function(request,response){
 
 //회원가입 폼 요청
 app.get("/doublekj/joinform", function(request, response){
-    console.log("회원가입 페이지");
     response.render("doublekj/join");
 });
 
 //회원가입 요청처리
 app.post("/doublekj/join", function(request, response){
-    console.log("회원가입 하는중");
     var user_id=request.body.user_id;
     var user_pass=request.body.user_pass;
     var user_name=request.body.user_name;
@@ -197,7 +179,6 @@ app.post("/doublekj/join", function(request, response){
 ///중복 체크 
 app.get("/doublekj/logincheck", function(request, response){
     var user_id=request.query.user_id;
-    console.log(user_id);
 
     // var sql=""select * from user_list where user_id='"+user_id+"'"";
     var sql="select * from user_list where user_id=";
@@ -230,8 +211,7 @@ app.get("/doublekj/loginform", function(request, response){
 app.post("/doublekj/login", function(request, response){
     var user_id=request.body.user_id;
     var user_pass=request.body.user_pass;
-    console.log(user_id);
-    console.log(user_pass);
+    
 
     var sql="select * from user_list where user_id=? and user_pass=?";
 
@@ -325,9 +305,10 @@ app.post("/community/write",upload.single("pic"),function(req,res){
         res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
         res.end(lib.getMsgBack("로그인 필요한 페이지입니다."));
     }else{
+        // console.log(req.session.user_list);
         // parameter
         var title=req.body.title;
-        var writer=req.body.writer;
+        var writer=req.session.user_list.user_id;
         var content=req.body.content;
         var filename=req.body.filename; // multer 이용하여 기존 req객체에 추가된 것 
 
@@ -364,39 +345,48 @@ app.post("/community/write",upload.single("pic"),function(req,res){
 
 // 상세보기
 app.get("/community/detail",function(req,res){
-    // mysql 접속
-    var con= mysql.createConnection(conStr);
-    var community_id= req.query.community_id;
-    var sql= "select * from community where community_id="+community_id;
-    con.query(sql,function(err,result,fields){
-        if(err){
-            console.log("상세보기에 실패하였습니다.",err);
-        }else{
-            sql= "update community set hit=hit+1 where community_id="+community_id;
-            con.query(sql,function(error,result2,fields){
-                if(error){
-                    console.log("조회수 쿼리문 실패",error);
-                }else{
-                    // 댓글도 같이 뜨게 처리
-                    sql= "select * from comments where community_id=?";
-                    con.query(sql,[community_id],function(error,result1,fileds){
-                        if(error){
-                            console.log("상세보기 내 댓글 불러오는 쿼리문 실패",error);
-                        }else{
-                            res.render("community/detail",{
-                                community:result[0],
-                                commentsList:result1,
-                                lib:lib
-                            });
-
-                        }
-                    });
-                }
-                con.end(); // mysql 접속 종료
-            });
-           
-        }
-    });
+    if(req.session.user_list==undefined){
+        res.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
+        res.end(lib.getMsgBack("로그인 필요한 페이지입니다."));
+    }else{
+        // mysql 접속
+        var con= mysql.createConnection(conStr);
+        var community_id= req.query.community_id;
+        var sql= "select * from community where community_id="+community_id;
+        con.query(sql,function(err,result,fields){
+            if(err){
+                console.log("상세보기에 실패하였습니다.",err);
+            }else{
+                sql= "update community set hit=hit+1 where community_id="+community_id;
+                con.query(sql,function(error,result2,fields){
+                    if(error){
+                        console.log("조회수 쿼리문 실패",error);
+                    }else{
+                        // 댓글도 같이 뜨게 처리
+                        sql= "select * from comments where community_id=?";
+                        con.query(sql,[community_id],function(error,result1,fileds){
+                            if(error){
+                                console.log("상세보기 내 댓글 불러오는 쿼리문 실패",error);
+                            }else{
+                                // console.log(result[0].writer);
+                                // console.log(req.session.user_list.user_id);
+                                res.render("community/detail",{
+                                    community:result[0],
+                                    commentsList:result1,
+                                    lib:lib,
+                                    id_check1:req.session.user_list.user_id,
+                                    id_check2:result[0].writer
+                                });
+    
+                            }
+                        });
+                    }
+                    con.end(); // mysql 접속 종료
+                });
+               
+            }
+        });
+    }
 });
 
 // 수정
@@ -562,7 +552,6 @@ app.get("/comments/list",function(req,res){
             console.log("sql문 작동 중 실패",err);
         }else{
             var com= JSON.stringify(result);
-            console.log("잘 반영됐다.",result);
             res.writeHead(200,{"Content-Type":"text/json;charset=utf-8"});
             res.end(com);
         }
@@ -687,48 +676,9 @@ app.get("/customer/detail", function(request, response){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*------------------------ 세션 체크 ------------------------*/
 function checkAdminSession(req,url,res){
-    /*
-    인증받은 관리자의 정보를 DB가 아닌 메모리 영역 세션을 통해 가져오기
-    인증 과정을 수행했는지 여부는 
-    request.session.변수 객체에 개발자가 의도한 변수가 존재하는지 여부로 판단
-    */
+    
    if(req.session.user_list){ // request.session.user!=undefined라면
     res.render(url,{
         adminUser:req.session.user_list

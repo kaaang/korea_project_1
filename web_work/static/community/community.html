@@ -61,12 +61,6 @@
         $($("input[type='button']")[1]).click(function(){
             list();
         });
-        $($("input[type='button']")[2]).click(function(){
-            edit();
-        });
-        $($("input[type='button']")[3]).click(function(){
-            delet();
-        });
 
         $("input[type='file']").on("change",function(){ // 이미지 선택 시 미리보기
             // 지정된 옵션으로 문자열의 일부 추출
@@ -91,30 +85,7 @@
     function list(){ 
         location.href="/community/list";
     }
-    // 수정
-    function edit(){ 
-        if("해당 게시글을 수정하시겠습니까?"){
-            // 전송준비
-            $("form").attr("action","/community/edit");
-            $("form").attr("method","post");
-            // text아닌 바이너리 형식
-            $("form").attr("enctype","multipart/form-data"); 
-            // 전송
-            $("form").submit(); 
-        }
-    }
-    // 삭제
-    function delet(){ 
-        if(confirm("해당 게시글을 삭제 하시겠습니까?")){
-            // 전송준비
-            $("form").attr("action","/community/delete");
-            $("form").attr("method","post");
-            // text아닌 바이너리 형식
-            $("form").attr("enctype","multipart/form-data"); 
-            // 전송
-            $("form").submit(); 
-        }
-    }
+    
 </script>
 </head>
 <body>
@@ -124,7 +95,7 @@
     <div class="container">
         <form>
         <input type="text" name="title" placeholder="제목">
-        <input type="text" name="writer" placeholder="작성자">
+        <input type="hidden" name="writer" placeholder="작성자">
         <textarea name="content" placeholder=""></textarea>
         <input type="file" name="pic">
         <img src="#" alt="" id="preview"> 

@@ -30,23 +30,14 @@ textarea{
   CKEDITOR.replace("content");
   
   $($("input[type=button]")[0]).click(function(){
-        regist();
+        cancel();
        
     });
       
-   
-    $($("input[type=button]")[1]).click(function(){
-        cancel();
-    });
-
-
-
-});
-    function regist(){
-        $("form").attr("action","/customer/registsubmit"); 
-        $("form").attr("method","post");
-        $("form").submit();
+    function cancel(){
+        location.href="/customer/home";
     }
+});
    
   
 
@@ -80,14 +71,12 @@ textarea{
                      </tr>
                     <tr>
                     <td>
-                        <!-- html5 버튼은 디폴트가 submit 속성을 보유 -->
-                        
-                    
+
+                        <input type="button"  value="목록">
                     </td>
                 </tr>
             </table>
         </form>
-     
     </div>    
     <%- include('../inc/footer')%>
 </body>
