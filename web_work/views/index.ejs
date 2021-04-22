@@ -119,7 +119,7 @@
 
 
 
-      
+      <% if(result_1.length>=1){ %>
       <li class="one_half first">
         <blockquote><%= (result_1[0].content).replace(/(<([^>]+)>)/gi, "")%></blockquote>
         <figure class="clear"><img class="circle" src="/images/demo/60x60.png" alt="">
@@ -128,6 +128,7 @@
             <em><%= result_1[0].regdate %></em></figcaption>
         </figure>
       </li>
+      <% } %> 
       
       <% if(result_1.length>=2){ %> 
 

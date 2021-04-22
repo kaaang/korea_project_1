@@ -110,7 +110,25 @@
         <script>
           $(function(){
             $($("input[type=button]")[0]).click(function(){
-                //아이디 비어있음 체크
+               check();
+            });
+              //두번쨰 버튼 누르면 메인으로 돌아가기
+              $($("input[type=button]")[1]).click(function(){
+              location.href="/doublekj/main";
+            });
+
+            document.body.addEventListener("keydown", function(){
+              if(event.keyCode==13){
+                check();
+              }
+            });
+
+
+
+          });
+
+          function check(){
+                  //아이디 비어있음 체크
                 if($("#user_id").val()==""){
                     alert("아이디를 입력해주세요");
                     return;
@@ -123,12 +141,7 @@
                 $("form").attr("action","/doublekj/login"); //주소 정해지면 넣기
                 $("form").attr("method","post");
                 $("form").submit();
-            });
-              //두번쨰 버튼 누르면 메인으로 돌아가기
-              $($("input[type=button]")[1]).click(function(){
-              location.href="/doublekj/main";
-            });
-          });
+          }
         </script>
     </head>
   
